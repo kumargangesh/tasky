@@ -63,7 +63,7 @@ router.post(
   }
 );
 
-// endpoint to login user using POST request and endpoint "/mern/tasky/login", no login required
+// endpoint to login user using POST request and endpoint "/tasky/auth/login", no login required
 
 router.post("/loginuser", [
   body("email", "enter a valid email").isEmail(),
@@ -108,7 +108,7 @@ router.post("/loginuser", [
   }
 });
 
-// endpoint to get logedin user details using POST request and endpoint "/tasky/auth/getUser", login required
+// endpoint to get logedin user details using POST request and endpoint "/tasky/auth/getuser", login required
 
 router.post("/getuser", FetchUser, async (req, res) => {
   try {
@@ -129,7 +129,7 @@ router.post("/getuser", FetchUser, async (req, res) => {
   }
 });
 
-// endpoint to get logedin user details using POST request and endpoint "/tasky/auth/updateuser", login required
+// endpoint to update loggedin user using PUT request and endpoint "/tasky/auth/updateuser", login required
 
 router.put("/updateuser", [
   body("password", "password length should be grater than 5").isLength({ min: 5 }),

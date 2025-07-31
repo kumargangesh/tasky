@@ -24,8 +24,8 @@ app.use(express.json()) // middleware to ready values from body of request
 // available routes 
 
 app.use("/tasky/auth", require("./routes/auth")); // this is the parent endpoint for authentication related routes
-app.use("/tasky/tasks", require("./routes/notes")); // this is the parent endpoint for notes related routes
+app.use("/tasky/tasks", require("./routes/tasks")); // this is the parent endpoint for notes related routes
 
 app.listen(port, () => {
-  console.log(`iNoteBook app listening on port ${port}`)
+  console.log(`tasky web-app listening on port ${port}`)
 })
