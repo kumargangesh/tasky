@@ -9,8 +9,7 @@ export default function NoteItem(props) {
     const { deleteNote, setAlertMessage, toggleToShow } = context;
 
     return (
-        <div className="col-md-3">
-            <div className="card my-3">
+        <div className="card my-3">
                 <div className="card-body">
 
                     <div className="titleAndIcon d-flex justify-content-between">
@@ -24,7 +23,7 @@ export default function NoteItem(props) {
                                 updateNote(task)
                             }} />
                             <i class="fa-solid fa-trash" onClick={() => {
-                                deleteNote(note._id)
+                                deleteNote(task._id)
                                 toggleToShow(true)
                                 setAlertMessage("Note titles "+task.title+" deleted successfully");
                                 setTimeout(() => {
@@ -36,9 +35,16 @@ export default function NoteItem(props) {
                     </div>
 
                     <p className="card-text">{task.description}</p>
+                    <div className="stapri d-flex justify-content-between">
+                        <p>{task.status}</p>
+                        <p>{task.priority}</p>
+                    </div>
+
+                    <h6>{task.duedate}</h6>
+
+                    <p>{task.assignedto}</p>
                 </div>
             </div>
-        </div>
 
     )
 }

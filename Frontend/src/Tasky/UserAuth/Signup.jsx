@@ -55,7 +55,7 @@ export default function Signup() {
         if (json.success) {
           setErrorMessage(json.message);
           setTimeout(() => {
-            // navigate("/about");
+            navigate("/home");
             setUserAuth(json.authToken);
             setUserEmail(email);
           }, 1500);

@@ -5,7 +5,7 @@ import TaskContext from './TaskContext';
 const TaskState = (props) => {
 
   // const host = "https://inotebook-backend-gx6p.onrender.com";
-  const host = "localhost:5000";
+  const host = "http://localhost:5000";
 
   const tempNotes = [];
 
@@ -22,20 +22,20 @@ const TaskState = (props) => {
       method: "GET",
       headers: {
         'Content-Type': 'application/json',
-        // 'auth-token': userAuth
-        'auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg3Mjg0ZGFmMjhhNjVjNmQ0MDY4ZjJmIn0sImlhdCI6MTc1Mjk1NzkwNH0.iwIKO1fRYxbk1h4BJ_NlxOr7V6dVaASFIfQ1cD-7pMg"
+        'auth-token': userAuth
+        // 'auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg4YmUwZjYxMjJhMjdiNjgzYmI1ZDdhIn0sImlhdCI6MTc1NDA3MzAzNn0.hqGbhNehdBCGqyQL1-CGSDID-eAVNSiA_0WznNBK9gI"
       },
       // body : JSON.stringify({title, description})
     }));
 
     const json = await response.json();
-    const allNotes = json.notes;
+    const allNotes = json.tasks;
     setNotes(allNotes);
   }
 
   // adding a new note
 
-  const addNote = async (title, description) => {
+  const addNote = async (title, description, status, priority, assignedto) => {
 
     // Now we are going to make API calls 
 
@@ -44,9 +44,9 @@ const TaskState = (props) => {
       headers: {
         'Content-Type': 'application/json',
         'auth-token': userAuth
-        // 'auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg3Mjg0ZGFmMjhhNjVjNmQ0MDY4ZjJmIn0sImlhdCI6MTc1MjMzNTU4OX0.jkgZHl2OdzQvPwjDmAM5iFQt87gd7Fqu5Rsdh-Wmirc"
+        // 'auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg4YmUwZjYxMjJhMjdiNjgzYmI1ZDdhIn0sImlhdCI6MTc1NDA3MzAzNn0.hqGbhNehdBCGqyQL1-CGSDID-eAVNSiA_0WznNBK9gI"
       },
-      body: JSON.stringify({ title, description })
+      body: JSON.stringify({ title, description, status, priority, assignedto })
     }));
 
     // setNotes(notes.concat(note));
@@ -54,18 +54,19 @@ const TaskState = (props) => {
 
   // updating a notes
 
-  const updateNote = async (id, title, description) => {
+  const updateNote = async (id, title, description, status, priority, assignedto) => {
 
     // Now we are going to make API calls 
+    // alert("id to updtae: "+id);
 
     const response = await (fetch(`${host}/tasky/tasks/updatetask/${id}`, {
       method: "PUT",
       headers: {
         'Content-Type': 'application/json',
         'auth-token': userAuth
-        // 'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg3Mjg0ZGFmMjhhNjVjNmQ0MDY4ZjJmIn0sImlhdCI6MTc1MjMzNTU4OX0.jkgZHl2OdzQvPwjDmAM5iFQt87gd7Fqu5Rsdh-Wmirc'
+        // 'auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg4YmUwZjYxMjJhMjdiNjgzYmI1ZDdhIn0sImlhdCI6MTc1NDA3MzAzNn0.hqGbhNehdBCGqyQL1-CGSDID-eAVNSiA_0WznNBK9gI"
       },
-      body: JSON.stringify({ title, description })
+      body: JSON.stringify({ title, description, status, priority, assignedto })
     }));
 
 
@@ -81,12 +82,12 @@ const TaskState = (props) => {
 
   const deleteNote = async (id) => {
 
-    const response = await (fetch(`${host}/tasky/tasks/updatetask/${id}`, {
+    const response = await (fetch(`${host}/tasky/tasks/deletetask/${id}`, {
       method: "DELETE",
       headers: {
         'Content-Type': 'application/json',
         'auth-token': userAuth
-        // 'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg3Mjg0ZGFmMjhhNjVjNmQ0MDY4ZjJmIn0sImlhdCI6MTc1Mjk1NzkwNH0.iwIKO1fRYxbk1h4BJ_NlxOr7V6dVaASFIfQ1cD-7pMg'
+        // 'auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjg4YmUwZjYxMjJhMjdiNjgzYmI1ZDdhIn0sImlhdCI6MTc1NDA3MzAzNn0.hqGbhNehdBCGqyQL1-CGSDID-eAVNSiA_0WznNBK9gI"
       }
     }));
 
