@@ -1,0 +1,62 @@
+import React, { useContext, useEffect, useState } from 'react'
+import taskContext from '../../Context/TaskContext';
+// import "./Style.css";
+
+export default function NoteItem(props) {
+
+    const { task, updateNote } = props;
+    const context = useContext(taskContext);
+    const { deleteNote, setAlertMessage, toggleToShow } = context;
+
+    return (
+        <div className="col-md-3">
+            <div className="card my-3">
+                <div className="card-body">
+
+                    <div className="titleAndIcon d-flex justify-content-between">
+                        <h5 className="card-title">{task.title}</h5>
+                        <div style={{
+                            // border: "1px solid black",
+                            width: "25%",
+                            marginTop : "2%"
+                        }} className="d-flex justify-content-between">
+                            <i class="fa-solid fa-pen" onClick={() => {
+                                updateNote(task)
+                            }} />
+                            <i class="fa-solid fa-trash" onClick={() => {
+                                deleteNote(note._id)
+                                toggleToShow(true)
+                                setAlertMessage("Note titles "+task.title+" deleted successfully");
+                                setTimeout(() => {
+                                    toggleToShow(false);
+                                    setAlertMessage("");
+                                }, 1500);
+                            }} />
+                        </div>
+                    </div>
+
+                    <p className="card-text">{task.description}</p>
+                </div>
+            </div>
+        </div>
+
+    )
+}
+
+
+
+// import React from 'react'
+
+// export default function IndividualTask(props) {
+
+//     const { title, description, status, priority, assignedto } = props.task;
+
+//     return (
+//         <div class="card">
+//             <div class="card-body">
+//                 <h5 class="card-title">{title}</h5>
+//                 <p class="card-text">{description}</p>
+//             </div>
+//         </div>
+//     )
+// }
