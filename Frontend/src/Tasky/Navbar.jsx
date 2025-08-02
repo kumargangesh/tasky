@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import taskContext from './Context/TaskContext';
+import UserType from './UserType';
 
 export default function Navbar() {
+
+    const context = useContext(taskContext);
+    const { userAuth } = context;
+    const [isUser, toggleUser] = useState(false);
+
+    useEffect(() => {
+        if (userAuth !== "")
+            toggleUser(true);
+    });
+
     return (
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
@@ -11,31 +23,20 @@ export default function Navbar() {
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        {/* <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                        </li> */}
-                        {/* <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Dropdown
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            </ul>
-                        </li> */}
-                        {/* <li class="nav-item">
-                            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                        </li> */}
                     </ul>
-                    <div class="d-flex" role="search">
-                        <Link to='/'><button className="btn btn-warning">LOGIN</button></Link>
-                        <Link to='/signup'><button className="btn btn-warning mx-2">SIGNUP</button></Link>
-                    </div>
+
+                    {
+                        isUser === true ?
+                            <UserType />
+                            :
+                            <div className="d-flex" role="search">
+                                <Link className="btn btn-warning mx-2" type="submit" to="/">Login</Link>
+                                <Link className="btn btn-warning mx-1" type="submit" to="/signup" style={{
+                                    marginLeft: "5%"
+                                }}>SignUp</Link>
+                            </div>
+                    }
+
                 </div>
             </div>
         </nav>

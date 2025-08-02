@@ -5,8 +5,6 @@ import "../Style.css";
 
 export default function Home() {
 
-  // notes, addNote, updateNote, deleteNote, fetchAllNotes, alertMessage, setAlertMessage, toShow, toggleToShow, userAuth, setUserAuth, userEmail, setUserEmail
-
   const context = useContext(taskContext);
   const { notes, fetchAllNotes, addNote, updateNote, setAlertMessage, toggleToShow, userAuth } = context;
 
@@ -31,10 +29,10 @@ export default function Home() {
 
   useEffect(() => {
     fetchAllNotes();
-    // if (userAuth === "")
-    //   toggleIsUser(false);
-    // else
-    //   toggleIsUser(true);
+    if (userAuth === "")
+      toggleIsUser(false);
+    else
+      toggleIsUser(true);
   });
 
   const handleTitle = (e) => {
@@ -119,25 +117,35 @@ export default function Home() {
     }
   }
 
+  const clearAll =() => {
+    setTitle("");
+    setDesc("");
+    setStatus("");
+    setPriority("");
+    setAssign("");
+    setDueDate("");
+  }
+
+  const clearEAll =() => {
+    esetTitle("");
+    esetDesc("");
+    esetStatus("");
+    esetPriority("");
+    esetAssign("");
+    esetDueDate("");
+  }
+
   const addTask = () => {
-    addNote(title, desc, status, priority, assign);
-    toggleToShow(true);
-    setAlertMessage("New Task added successfully");
-    setTimeout(() => {
-      toggleToShow(false);
-      setAlertMessage("");
-    }, 1500);
-    // if (validateTask()) {
-    //   addNote(title, desc);
-    //   toggleToShow(true);
-    //   setAlertMessage("New Task added successfully");
-    //   setTimeout(() => {
-    //     toggleToShow(false);
-    //     setAlertMessage("");
-    //   }, 1500);
-    // }
-    // console.log(title, desc, status, priority, duedate, assign);
-    // addNewTask(title, desc, status, priority, duedate, assign);
+    if (validateTask()) {
+      addNote(title, desc, status, priority, duedate, assign);
+      toggleToShow(true);
+      setAlertMessage("New Task added successfully");
+      setTimeout(() => {
+        toggleToShow(false);
+        setAlertMessage("");
+        clearAll();
+      }, 1500);
+    }
   }
 
   const updateNNote = (note) => {
@@ -152,34 +160,18 @@ export default function Home() {
 
   const confirmUpdate = () => {
 
-    changeeErrorMessage("");
-    updateNote(noteToUpdate._id, etitle, edesc, estatus, epriority, eassign);
-    toggleToShow(true);
-    setAlertMessage("Note updated successfully");
-    setTimeout(() => {
-      toggleToShow(false);
-      setAlertMessage("");
-    }, 1500);
-    refClose.current.click();
-
-    // alert("updating note ID: "+noteToUpdate._id);
-    // if (enewNoteTitle === "" && enewNoteDesc === "") {
-    //   changeeErrorMessage("enter updated title & description");
-    // } else if (enewNoteTitle === "") {
-    //   changeeErrorMessage("enter updated title");
-    // } else if (enewNoteDesc === "") {
-    //   changeeErrorMessage("enter updated desription");
-    // } else {
-    //   changeeErrorMessage("");
-    //   updateNote(noteToUpdate._id, enewNoteTitle, enewNoteDesc);
-    //   toggleToShow(true);
-    //   setAlertMessage("Note updated successfully");
-    //   setTimeout(() => {
-    //     toggleToShow(false);
-    //     setAlertMessage("");
-    //   }, 1500);
-    //   refClose.current.click();
-    // }
+    if (validateTask()) {
+      changeeErrorMessage("");
+      updateNote(noteToUpdate._id, etitle, edesc, estatus, epriority, eassign);
+      toggleToShow(true);
+      setAlertMessage("Note updated successfully");
+      setTimeout(() => {
+        toggleToShow(false);
+        setAlertMessage("");
+        clearEAll();
+      }, 1500);
+      refClose.current.click();
+    }
   }
 
   const ref = useRef(null);
@@ -188,7 +180,9 @@ export default function Home() {
   return (
     <div>
 
-      <div className="container">
+      <div className="container" style={{
+        fontWeight : "bolder"
+      }}>
         <div className="newtask d-flex justify-content-between">
           <h3>Add new task</h3>
           <i classsName="fa-solid fa-plus" />
@@ -211,24 +205,36 @@ export default function Home() {
           </div>
 
           <div className="stapri d-flex justify-content-between">
-            <div class="mb-3">
+            <div class="mb-3"  style={{
+                width : "45%",
+                // border : "1px solid black"
+              }} >
               <label for="exampleInputPassword1" class="form-label">Status</label>
-              <input type="text" class="form-control" id="exampleInputPassword1" value={status} onChange={handleStatus} />
+              <input type="text" class="form-control" id="exampleInputPassword1" value={status} onChange={handleStatus}/>
             </div>
 
-            <div class="mb-3">
+            <div class="mb-3"  style={{
+                width : "45%",
+                // border : "1px solid black"
+              }} >
               <label for="exampleInputPassword1" class="form-label">Priority</label>
               <input type="text" class="form-control" id="exampleInputPassword1" value={priority} onChange={handlePriority} />
             </div>
           </div>
 
           <div className="ddassi d-flex justify-content-between">
-            <div class="mb-3">
+            <div class="mb-3"  style={{
+                width : "20%",
+                // border : "1px solid black"
+              }}>
               <label for="exampleInputPassword1" class="form-label">Due Date</label>
               <input type="date" class="form-control" id="exampleInputPassword1" value={duedate} onChange={handleDueDate} />
             </div>
 
-            <div class="mb-3">
+            <div class="mb-3"  style={{
+                width : "45%",
+                // border : "1px solid black"
+              }}>
               <label for="exampleInputPassword1" class="form-label">Assigned To</label>
               <input type="text" class="form-control" id="exampleInputPassword1" value={assign} onChange={handleAssign} />
             </div>
@@ -239,7 +245,10 @@ export default function Home() {
             fontWeight: "bolder"
           }}>{errorMessage}</p >
 
-          <button type="submit" class="btn btn-primary" onClick={addTask}>Add Task</button>
+          <button type="submit" class="btn btn-warning" onClick={addTask} style={{
+            width : "100px",
+            height : "50px"
+          }}>Add Task</button>
         </div>
 
         {/* <!-- Button trigger modal --> */}
