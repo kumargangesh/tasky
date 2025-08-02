@@ -2,6 +2,7 @@ import { useEffect, React, useContext } from 'react'
 import { createContext } from 'react'
 import taskContext from '../Context/TaskContext';
 import IndividualUser from './IndividualUser';
+import "./Design.css";
 
 export default function AllUsers() {
 
@@ -26,7 +27,9 @@ export default function AllUsers() {
                 // border: "1px solid black"
                 marginTop: "2%"
             }}>
-                <div className="row" >
+                <div className="row" style={{
+                    // border : "1px solid black"
+                }}>
                     {
                         users.length > 0 ?
                             users.map((user) => {

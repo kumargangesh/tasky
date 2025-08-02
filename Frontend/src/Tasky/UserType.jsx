@@ -12,13 +12,13 @@ export default function UserType() {
             {
                 userType === "admin" ?
                     <div>
-                        <button className='btn btn-warning'>{((userEmail).charAt(0)).toUpperCase()}</button>
-                        <Link to = "/users"><button className='btn btn-warning' style={{
-                            marginLeft: "5px"
+                        <button className='btn btn-secondary'>{((userEmail).charAt(0)).toUpperCase()}</button>
+                        <Link to = "/users"><button className='btn btn-secondary' style={{
+                            marginLeft: "10px"
                         }}>USERS</button></Link>
                     </div>
                     :
-                    <button className='btn btn-warning'>{((userEmail).charAt(0)).toUpperCase()}</button>
+                    <button className='btn btn-secondary'>{((userEmail).charAt(0)).toUpperCase()}</button>
             }
         </div>
     )

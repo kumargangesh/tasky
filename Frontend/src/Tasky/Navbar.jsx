@@ -2,11 +2,12 @@ import React, { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import taskContext from './Context/TaskContext';
 import UserType from './UserType';
+// import "./Style.css";
 
 export default function Navbar() {
 
     const context = useContext(taskContext);
-    const { userAuth } = context;
+    const { userAuth, userEmail } = context;
     const [isUser, toggleUser] = useState(false);
 
     useEffect(() => {
@@ -15,7 +16,7 @@ export default function Navbar() {
     });
 
     return (
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <nav class="navbar navbar-expand-lg custom-navbar">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">Tasky</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,8 +31,8 @@ export default function Navbar() {
                             <UserType />
                             :
                             <div className="d-flex" role="search">
-                                <Link className="btn btn-warning mx-2" type="submit" to="/">Login</Link>
-                                <Link className="btn btn-warning mx-1" type="submit" to="/signup" style={{
+                                <Link className="btn btn-secondary mx-2" type="submit" to="/">Login</Link>
+                                <Link className="btn btn-secondary mx-1" type="submit" to="/signup" style={{
                                     marginLeft: "5%"
                                 }}>SignUp</Link>
                             </div>

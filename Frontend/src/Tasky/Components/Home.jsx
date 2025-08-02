@@ -2,11 +2,14 @@ import React, { useContext, useState, useEffect, useRef } from 'react'
 import taskContext from '../Context/TaskContext';
 import IndividualTask from './Tasks/IndividualTask';
 import "../Style.css";
+import { Link } from 'react-router-dom';
 
 export default function Home() {
 
   const context = useContext(taskContext);
   const { notes, fetchAllNotes, addNote, updateNote, setAlertMessage, toggleToShow, userAuth } = context;
+
+  // const [] = useState("");
 
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
@@ -29,10 +32,10 @@ export default function Home() {
 
   useEffect(() => {
     fetchAllNotes();
-    if (userAuth === "")
-      toggleIsUser(false);
-    else
-      toggleIsUser(true);
+    // if (userAuth === "")
+    //   toggleIsUser(false);
+    // else
+    //   toggleIsUser(true);
   });
 
   const handleTitle = (e) => {
@@ -117,7 +120,7 @@ export default function Home() {
     }
   }
 
-  const clearAll =() => {
+  const clearAll = () => {
     setTitle("");
     setDesc("");
     setStatus("");
@@ -126,7 +129,7 @@ export default function Home() {
     setDueDate("");
   }
 
-  const clearEAll =() => {
+  const clearEAll = () => {
     esetTitle("");
     esetDesc("");
     esetStatus("");
@@ -178,211 +181,437 @@ export default function Home() {
   const refClose = useRef(null);
 
   return (
+
     <div>
-
-      <div className="container" style={{
-        fontWeight : "bolder"
-      }}>
-        <div className="newtask d-flex justify-content-between">
-          <h3>Add new task</h3>
-          <i classsName="fa-solid fa-plus" />
-        </div>
-
-        <div style={{
-          margin: 'auto',
-          marginTop: '3%',
-          width: '80%',
-          border: "1px solid black",
-          padding: "2%"
-        }}>
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Title</label>
-            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value={title} onChange={handleTitle} />
+      {
+        userAuth === "" ?
+          <div>
+            <center><h1 style={{
+              marginTop : "5%"
+            }}>No user logged in, please either login in sign up</h1></center>
+            <Link to="/"><button className="btn btn-secondary" style={{
+              width : "15%",
+              height : "60px",
+              marginLeft : "40%",
+              marginTop : "5%"
+            }}>LOGIN / SIGNUP</button></Link>
           </div>
-          <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Description</label>
-            <input type="text" class="form-control" id="exampleInputPassword1" value={desc} onChange={handleDesc} />
-          </div>
-
-          <div className="stapri d-flex justify-content-between">
-            <div class="mb-3"  style={{
-                width : "45%",
-                // border : "1px solid black"
-              }} >
-              <label for="exampleInputPassword1" class="form-label">Status</label>
-              <input type="text" class="form-control" id="exampleInputPassword1" value={status} onChange={handleStatus}/>
-            </div>
-
-            <div class="mb-3"  style={{
-                width : "45%",
-                // border : "1px solid black"
-              }} >
-              <label for="exampleInputPassword1" class="form-label">Priority</label>
-              <input type="text" class="form-control" id="exampleInputPassword1" value={priority} onChange={handlePriority} />
-            </div>
-          </div>
-
-          <div className="ddassi d-flex justify-content-between">
-            <div class="mb-3"  style={{
-                width : "20%",
-                // border : "1px solid black"
+          :
+          <>
+            <div>
+              <div className="container" style={{
+                fontWeight: "bolder"
               }}>
-              <label for="exampleInputPassword1" class="form-label">Due Date</label>
-              <input type="date" class="form-control" id="exampleInputPassword1" value={duedate} onChange={handleDueDate} />
-            </div>
-
-            <div class="mb-3"  style={{
-                width : "45%",
-                // border : "1px solid black"
-              }}>
-              <label for="exampleInputPassword1" class="form-label">Assigned To</label>
-              <input type="text" class="form-control" id="exampleInputPassword1" value={assign} onChange={handleAssign} />
-            </div>
-          </div>
-
-          <p style={{
-            color: 'red',
-            fontWeight: "bolder"
-          }}>{errorMessage}</p >
-
-          <button type="submit" class="btn btn-warning" onClick={addTask} style={{
-            width : "100px",
-            height : "50px"
-          }}>Add Task</button>
-        </div>
-
-        {/* <!-- Button trigger modal --> */}
-        <button style={{
-          display: "none"
-        }} ref={ref} type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-          Launch demo modal
-        </button>
-
-        {/* <!-- Modal --> */}
-        <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h1 className="modal-title fs-5" id="exampleModalLabel">Updating a note</h1>
-                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-
-              <div className="modal-body">
-                <div className="newNoteForm">
-                  <div className="mb-3">
-                    <label htmlFor="exampleInputEmail1" className="form-label">Title</label>
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="exampleInputEmail1"
-                      aria-describedby="emailHelp"
-                      value={etitle}
-                      onChange={ehandleTitle}
-                    />
-                  </div>
-
-                  <div className="mb-3">
-                    <label htmlFor="exampleInputPassword1" className="form-label">Description</label>
-                    <textarea
-                      type="text"
-                      className="form-control"
-                      id="exampleInputPassword1"
-                      value={edesc}
-                      onChange={ehandleDesc}
-                      style={{
-                        height: "150px"
-                      }}
-                    />
-                  </div>
-
-                  <div className="mb-3">
-                    <label htmlFor="exampleInputEmail1" className="form-label">Status</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="exampleInputEmail1"
-                      aria-describedby="emailHelp"
-                      value={estatus}
-                      onChange={ehandleStatus}
-                    />
-                  </div>
-
-                  <div className="mb-3">
-                    <label htmlFor="exampleInputEmail1" className="form-label">Priority</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="exampleInputEmail1"
-                      aria-describedby="emailHelp"
-                      value={epriority}
-                      onChange={ehandlePriority}
-                    />
-                  </div>
-
-                  <div className="mb-3">
-                    <label htmlFor="exampleInputEmail1" className="form-label">Due Date</label>
-                    <input
-                      type="date"
-                      className="form-control"
-                      id="exampleInputEmail1"
-                      aria-describedby="emailHelp"
-                      value={eduedate}
-                      onChange={ehandleDueDate}
-                    />
-                  </div>
-
-                  <div className="mb-3">
-                    <label htmlFor="exampleInputEmail1" className="form-label">Assigned To</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="exampleInputEmail1"
-                      aria-describedby="emailHelp"
-                      value={eassign}
-                      onChange={ehandleAssign}
-                    />
-                  </div>
-
+                <div className="newtask d-flex justify-content-between">
+                  <h3>Add new task</h3>
+                  <i classsName="fa-solid fa-plus" />
                 </div>
-              </div>
 
-              <p style={{
-                color: 'red',
-                fontWeight: "bolder",
-                marginLeft: "5%",
-                marginTop: "-3%"
-              }}>{eerrorMessage}</p>
+                <div style={{
+                  margin: 'auto',
+                  marginTop: '3%',
+                  width: '80%',
+                  border: "1px solid black",
+                  padding: "2%"
+                }}>
+                  <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value={title} onChange={handleTitle} />
+                  </div>
+                  <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Description</label>
+                    <input type="text" class="form-control" id="exampleInputPassword1" value={desc} onChange={handleDesc} />
+                  </div>
 
-              <div className="modal-footer">
-                <button ref={refClose} type="button" className="btn btn-secondary loginButton" data-bs-dismiss="modal" >Close</button>
-                <button type="button" className="btn btn-warning loginButton" onClick={confirmUpdate} >Update Note</button>
+                  <div className="stapri d-flex justify-content-between">
+                    <div class="mb-3" style={{
+                      width: "45%",
+                      // border : "1px solid black"
+                    }} >
+                      <label for="exampleInputPassword1" class="form-label">Status</label>
+                      <input type="text" class="form-control" id="exampleInputPassword1" value={status} onChange={handleStatus} />
+                    </div>
+
+                    <div class="mb-3" style={{
+                      width: "45%",
+                      // border : "1px solid black"
+                    }} >
+                      <label for="exampleInputPassword1" class="form-label">Priority</label>
+                      <input type="text" class="form-control" id="exampleInputPassword1" value={priority} onChange={handlePriority} />
+                    </div>
+                  </div>
+
+                  <div className="ddassi d-flex justify-content-between">
+                    <div class="mb-3" style={{
+                      width: "20%",
+                      // border : "1px solid black"
+                    }}>
+                      <label for="exampleInputPassword1" class="form-label">Due Date</label>
+                      <input type="date" class="form-control" id="exampleInputPassword1" value={duedate} onChange={handleDueDate} />
+                    </div>
+
+                    <div class="mb-3" style={{
+                      width: "45%",
+                      // border : "1px solid black"
+                    }}>
+                      <label for="exampleInputPassword1" class="form-label">Assigned To</label>
+                      <input type="text" class="form-control" id="exampleInputPassword1" value={assign} onChange={handleAssign} />
+                    </div>
+                  </div>
+
+                  <p style={{
+                    color: 'red',
+                    fontWeight: "bolder"
+                  }}>{errorMessage}</p >
+
+                  <button type="submit" class="btn btn-warning" onClick={addTask} style={{
+                    width: "100px",
+                    height: "50px"
+                  }}>Add Task</button>
+                </div>
+
+                {/* <!-- Button trigger modal --> */}
+                <button style={{
+                  display: "none"
+                }} ref={ref} type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  Launch demo modal
+                </button>
+
+                {/* <!-- Modal --> */}
+                <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div className="modal-dialog">
+                    <div className="modal-content">
+                      <div className="modal-header">
+                        <h1 className="modal-title fs-5" id="exampleModalLabel">Updating a note</h1>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+
+                      <div className="modal-body">
+                        <div className="newNoteForm">
+                          <div className="mb-3">
+                            <label htmlFor="exampleInputEmail1" className="form-label">Title</label>
+                            <input
+                              type="email"
+                              className="form-control"
+                              id="exampleInputEmail1"
+                              aria-describedby="emailHelp"
+                              value={etitle}
+                              onChange={ehandleTitle}
+                            />
+                          </div>
+
+                          <div className="mb-3">
+                            <label htmlFor="exampleInputPassword1" className="form-label">Description</label>
+                            <textarea
+                              type="text"
+                              className="form-control"
+                              id="exampleInputPassword1"
+                              value={edesc}
+                              onChange={ehandleDesc}
+                              style={{
+                                height: "150px"
+                              }}
+                            />
+                          </div>
+
+                          <div className="mb-3">
+                            <label htmlFor="exampleInputEmail1" className="form-label">Status</label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              id="exampleInputEmail1"
+                              aria-describedby="emailHelp"
+                              value={estatus}
+                              onChange={ehandleStatus}
+                            />
+                          </div>
+
+                          <div className="mb-3">
+                            <label htmlFor="exampleInputEmail1" className="form-label">Priority</label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              id="exampleInputEmail1"
+                              aria-describedby="emailHelp"
+                              value={epriority}
+                              onChange={ehandlePriority}
+                            />
+                          </div>
+
+                          <div className="mb-3">
+                            <label htmlFor="exampleInputEmail1" className="form-label">Due Date</label>
+                            <input
+                              type="date"
+                              className="form-control"
+                              id="exampleInputEmail1"
+                              aria-describedby="emailHelp"
+                              value={eduedate}
+                              onChange={ehandleDueDate}
+                            />
+                          </div>
+
+                          <div className="mb-3">
+                            <label htmlFor="exampleInputEmail1" className="form-label">Assigned To</label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              id="exampleInputEmail1"
+                              aria-describedby="emailHelp"
+                              value={eassign}
+                              onChange={ehandleAssign}
+                            />
+                          </div>
+
+                        </div>
+                      </div>
+
+                      <p style={{
+                        color: 'red',
+                        fontWeight: "bolder",
+                        marginLeft: "5%",
+                        marginTop: "-3%"
+                      }}>{eerrorMessage}</p>
+
+                      <div className="modal-footer">
+                        <button ref={refClose} type="button" className="btn btn-secondary loginButton" data-bs-dismiss="modal" >Close</button>
+                        <button type="button" className="btn btn-warning loginButton" onClick={confirmUpdate} >Update Note</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="container" style={{
+                  marginTop: "3%"
+                }}>
+                  <h4>Available Tasks: </h4>
+                  <div className="row">
+                    {
+                      notes.length > 0 ?
+                        notes.map((task) => {
+                          return (
+                            <div className="col-md-4">
+                              <IndividualTask task={task} updateNote={updateNNote} />
+                            </div>
+                          )
+                        })
+                        :
+                        <h5>No tasks available</h5>
+                    }
+                  </div>
+                </div>
+
+
               </div>
             </div>
-          </div>
-        </div>
-
-
-      </div>
-
-      <div className="container" style={{
-        marginTop: "3%"
-      }}>
-        <h4>Available Tasks: </h4>
-        <div className="row">
-          {
-            notes.length > 0 ?
-              notes.map((task) => {
-                return (
-                  <div className="col-md-4">
-                    <IndividualTask task={task} updateNote={updateNNote} />
-                  </div>
-                )
-              })
-              :
-              <h5>No tasks available</h5>
-          }
-        </div>
-      </div>
+          </>
+      }
     </div>
+
+    // <div>
+
+    //   <div className="container" style={{
+    //     fontWeight : "bolder"
+    //   }}>
+    //     <div className="newtask d-flex justify-content-between">
+    //       <h3>Add new task</h3>
+    //       <i classsName="fa-solid fa-plus" />
+    //     </div>
+
+    //     <div style={{
+    //       margin: 'auto',
+    //       marginTop: '3%',
+    //       width: '80%',
+    //       border: "1px solid black",
+    //       padding: "2%"
+    //     }}>
+    //       <div class="mb-3">
+    //         <label for="exampleInputEmail1" class="form-label">Title</label>
+    //         <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value={title} onChange={handleTitle} />
+    //       </div>
+    //       <div class="mb-3">
+    //         <label for="exampleInputPassword1" class="form-label">Description</label>
+    //         <input type="text" class="form-control" id="exampleInputPassword1" value={desc} onChange={handleDesc} />
+    //       </div>
+
+    //       <div className="stapri d-flex justify-content-between">
+    //         <div class="mb-3"  style={{
+    //             width : "45%",
+    //             // border : "1px solid black"
+    //           }} >
+    //           <label for="exampleInputPassword1" class="form-label">Status</label>
+    //           <input type="text" class="form-control" id="exampleInputPassword1" value={status} onChange={handleStatus}/>
+    //         </div>
+
+    //         <div class="mb-3"  style={{
+    //             width : "45%",
+    //             // border : "1px solid black"
+    //           }} >
+    //           <label for="exampleInputPassword1" class="form-label">Priority</label>
+    //           <input type="text" class="form-control" id="exampleInputPassword1" value={priority} onChange={handlePriority} />
+    //         </div>
+    //       </div>
+
+    //       <div className="ddassi d-flex justify-content-between">
+    //         <div class="mb-3"  style={{
+    //             width : "20%",
+    //             // border : "1px solid black"
+    //           }}>
+    //           <label for="exampleInputPassword1" class="form-label">Due Date</label>
+    //           <input type="date" class="form-control" id="exampleInputPassword1" value={duedate} onChange={handleDueDate} />
+    //         </div>
+
+    //         <div class="mb-3"  style={{
+    //             width : "45%",
+    //             // border : "1px solid black"
+    //           }}>
+    //           <label for="exampleInputPassword1" class="form-label">Assigned To</label>
+    //           <input type="text" class="form-control" id="exampleInputPassword1" value={assign} onChange={handleAssign} />
+    //         </div>
+    //       </div>
+
+    //       <p style={{
+    //         color: 'red',
+    //         fontWeight: "bolder"
+    //       }}>{errorMessage}</p >
+
+    //       <button type="submit" class="btn btn-warning" onClick={addTask} style={{
+    //         width : "100px",
+    //         height : "50px"
+    //       }}>Add Task</button>
+    //     </div>
+
+    //     {/* <!-- Button trigger modal --> */}
+    //     <button style={{
+    //       display: "none"
+    //     }} ref={ref} type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    //       Launch demo modal
+    //     </button>
+
+    //     {/* <!-- Modal --> */}
+    //     <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    //       <div className="modal-dialog">
+    //         <div className="modal-content">
+    //           <div className="modal-header">
+    //             <h1 className="modal-title fs-5" id="exampleModalLabel">Updating a note</h1>
+    //             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    //           </div>
+
+    //           <div className="modal-body">
+    //             <div className="newNoteForm">
+    //               <div className="mb-3">
+    //                 <label htmlFor="exampleInputEmail1" className="form-label">Title</label>
+    //                 <input
+    //                   type="email"
+    //                   className="form-control"
+    //                   id="exampleInputEmail1"
+    //                   aria-describedby="emailHelp"
+    //                   value={etitle}
+    //                   onChange={ehandleTitle}
+    //                 />
+    //               </div>
+
+    //               <div className="mb-3">
+    //                 <label htmlFor="exampleInputPassword1" className="form-label">Description</label>
+    //                 <textarea
+    //                   type="text"
+    //                   className="form-control"
+    //                   id="exampleInputPassword1"
+    //                   value={edesc}
+    //                   onChange={ehandleDesc}
+    //                   style={{
+    //                     height: "150px"
+    //                   }}
+    //                 />
+    //               </div>
+
+    //               <div className="mb-3">
+    //                 <label htmlFor="exampleInputEmail1" className="form-label">Status</label>
+    //                 <input
+    //                   type="text"
+    //                   className="form-control"
+    //                   id="exampleInputEmail1"
+    //                   aria-describedby="emailHelp"
+    //                   value={estatus}
+    //                   onChange={ehandleStatus}
+    //                 />
+    //               </div>
+
+    //               <div className="mb-3">
+    //                 <label htmlFor="exampleInputEmail1" className="form-label">Priority</label>
+    //                 <input
+    //                   type="text"
+    //                   className="form-control"
+    //                   id="exampleInputEmail1"
+    //                   aria-describedby="emailHelp"
+    //                   value={epriority}
+    //                   onChange={ehandlePriority}
+    //                 />
+    //               </div>
+
+    //               <div className="mb-3">
+    //                 <label htmlFor="exampleInputEmail1" className="form-label">Due Date</label>
+    //                 <input
+    //                   type="date"
+    //                   className="form-control"
+    //                   id="exampleInputEmail1"
+    //                   aria-describedby="emailHelp"
+    //                   value={eduedate}
+    //                   onChange={ehandleDueDate}
+    //                 />
+    //               </div>
+
+    //               <div className="mb-3">
+    //                 <label htmlFor="exampleInputEmail1" className="form-label">Assigned To</label>
+    //                 <input
+    //                   type="text"
+    //                   className="form-control"
+    //                   id="exampleInputEmail1"
+    //                   aria-describedby="emailHelp"
+    //                   value={eassign}
+    //                   onChange={ehandleAssign}
+    //                 />
+    //               </div>
+
+    //             </div>
+    //           </div>
+
+    //           <p style={{
+    //             color: 'red',
+    //             fontWeight: "bolder",
+    //             marginLeft: "5%",
+    //             marginTop: "-3%"
+    //           }}>{eerrorMessage}</p>
+
+    //           <div className="modal-footer">
+    //             <button ref={refClose} type="button" className="btn btn-secondary loginButton" data-bs-dismiss="modal" >Close</button>
+    //             <button type="button" className="btn btn-warning loginButton" onClick={confirmUpdate} >Update Note</button>
+    //           </div>
+    //         </div>
+    //       </div>
+    //     </div>
+
+
+    //   </div>
+
+    // <div className="container" style={{
+    //   marginTop: "3%"
+    // }}>
+    //   <h4>Available Tasks: </h4>
+    //   <div className="row">
+    //     {
+    //       notes.length > 0 ?
+    //         notes.map((task) => {
+    //           return (
+    //             <div className="col-md-4">
+    //               <IndividualTask task={task} updateNote={updateNNote} />
+    //             </div>
+    //           )
+    //         })
+    //         :
+    //         <h5>No tasks available</h5>
+    //     }
+    //   </div>
+    // </div>
+    // </div>
   )
 }

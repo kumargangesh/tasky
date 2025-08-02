@@ -45,10 +45,10 @@ export default function Login() {
         });
 
         const json = await response.json();
-        setUserType(json.user.role);
 
         if (json.success) {
           setErrorMessage(json.message);
+          setUserType(json.user.role);
           setTimeout(() => {
             navigate("/home");
             setUserAuth(json.authToken);

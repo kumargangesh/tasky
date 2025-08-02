@@ -1,5 +1,6 @@
 import React, { useContext, useRef, useState } from 'react'
 import taskContext from '../Context/TaskContext';
+import "./Design.css";
 
 export default function IndividualUser(props) {
 
@@ -23,7 +24,7 @@ export default function IndividualUser(props) {
     }
 
     return (
-        <div>
+        <div className="indiTask">
             <div className="emailicon" style={{
                 border: "1px solid black",
                 width: "60%",
@@ -31,7 +32,7 @@ export default function IndividualUser(props) {
                 margin: "auto",
                 marginTop: "3%"
             }}>
-                <div className="d-flex justify-content-between">
+                <div className="d-flex justify-content-between picons">
                     <p style={{
                         fontSize: "25px",
                         fontWeight: "bold"
@@ -40,7 +41,7 @@ export default function IndividualUser(props) {
                         // border: "1px solid black",
                         width: "15%",
                         marginTop: "9px",
-                    }} className="d-flex justify-content-between">
+                    }} className="d-flex justify-content-between ">
                         <i class="fa-solid fa-pen" style={{
                             fontSize: "22px"
                         }} onClick={updateAnUser} />
