@@ -11,6 +11,7 @@ const TaskState = (props) => {
 
   const tempNotes = [];
   const tempUsers = [];
+  const tempImpTasks = [];
 
   const [notes, setNotes] = useState(tempNotes);
   const [alertMessage, setAlertMessage] = useState("");
@@ -20,6 +21,8 @@ const TaskState = (props) => {
   const [userType, setUserType] = useState("");
 
   const [users, setUsers] = useState(tempUsers);
+
+  const [impTasks, setImpTasks] = useState(tempImpTasks);
 
   // fetching all the notes
 
@@ -37,6 +40,21 @@ const TaskState = (props) => {
     const json = await response.json();
     const allNotes = json.tasks;
     setNotes(allNotes);
+
+    let importantTasks = [];
+    let normalTasks = [];
+
+    for (let g = 0; g < allNotes.length; g++) {
+      if (allNotes[g].priority === "IMPORTANT")
+        importantTasks.push(allNotes[g]);
+      else
+        normalTasks.push(allNotes[g]);
+    }
+
+    setNotes(normalTasks);
+
+    setImpTasks(importantTasks);
+
   }
 
   const fetchAllUsers = async () => {
@@ -50,7 +68,7 @@ const TaskState = (props) => {
     let newUsers = [];
 
     allUsers.map((user) => {
-      if(String(user.email) !== String(userEmail)){
+      if (String(user.email) !== String(userEmail)) {
         newUsers.push(user);
       }
     });
@@ -162,7 +180,7 @@ const TaskState = (props) => {
   }
 
   return (
-    <TaskContext.Provider value={{ notes, addNote, updateNote, deleteNote, fetchAllNotes, alertMessage, setAlertMessage, toShow, toggleToShow, userAuth, setUserAuth, userEmail, setUserEmail, userType, setUserType, users, setUsers, fetchAllUsers, deleteUser, updateUser }}>
+    <TaskContext.Provider value={{ notes, addNote, updateNote, deleteNote, fetchAllNotes, alertMessage, setAlertMessage, toShow, toggleToShow, userAuth, setUserAuth, userEmail, setUserEmail, userType, setUserType, users, setUsers, fetchAllUsers, deleteUser, updateUser, impTasks, setImpTasks }}>
       {props.children}
     </TaskContext.Provider>
   )

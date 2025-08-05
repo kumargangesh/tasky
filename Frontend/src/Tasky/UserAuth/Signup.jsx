@@ -11,7 +11,10 @@ export default function Signup() {
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleRole = (event) => {
-    setRole(event.target.value);
+    let gettingRole = event.target.textContent;
+    gettingRole = gettingRole.toLowerCase();
+    setRole(gettingRole);
+    // alert(role);
   }
 
   const handleEmail = (event) => {
@@ -27,6 +30,7 @@ export default function Signup() {
   const { setUserAuth, setUserEmail } = context;
 
   const createUser = async () => {
+    console.log(role, email, password);
     if (role === "" && email === "" && password === "") {
       setErrorMessage("enter all values");
     } else if (role === "") {
@@ -64,7 +68,7 @@ export default function Signup() {
         }
         console.log(json.response);
       }
-    }
+    } 
   }
 
   return (
@@ -92,7 +96,21 @@ export default function Signup() {
 
          <div className="mb-3">
           <label style={{ fontWeight: "bolder" }} for="exampleInputEmail1" className="form-label">Role</label>
-          <input type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value={role} onChange={handleRole} />
+          <div className="buttons d-flex justify-content-between" style={{
+            // border : "1px solid black",
+            width : "20%",
+            padding : ".5%"
+          }}>
+            <button className="btn btn-warning" style={{
+              width : "40%",
+              height : "50px"
+            }} onClick={handleRole}>ADMIN</button>
+            <button className="btn btn-success" style={{
+              width : "40%",
+              height : "50px"
+            }} onClick={handleRole}>NORMAL</button>
+          </div>
+          {/* <input type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value={role} onChange={handleRole} /> */}
         </div>
 
         <p style={{
@@ -100,7 +118,9 @@ export default function Signup() {
           color: "red"
         }}>{errorMessage}</p>
 
-        <button type="submit" className="btn btn-warning loginButton" onClick={createUser}>Signup</button>
+        <button type="submit" className="btn btn-warning loginButton" onClick={createUser} style={{
+          marginTop : "3%"
+        }}>Signup</button>
       </div>
     </>
   )

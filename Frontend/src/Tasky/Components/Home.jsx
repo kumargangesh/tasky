@@ -7,12 +7,12 @@ import { Link } from 'react-router-dom';
 export default function Home() {
 
   const context = useContext(taskContext);
-  const { notes, fetchAllNotes, addNote, updateNote, setAlertMessage, toggleToShow, userAuth } = context;
+  const { notes, fetchAllNotes, addNote, updateNote, setAlertMessage, toggleToShow, userAuth, impTasks } = context;
 
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [status, setStatus] = useState("");
-  const [priority, setPriority] = useState("");
+  const [priority, setPriority] = useState("COMMON");
   const [duedate, setDueDate] = useState("");
   const [assign, setAssign] = useState("");
   const [errorMessage, changeErrorMessage] = useState("");
@@ -20,30 +20,62 @@ export default function Home() {
   const [etitle, esetTitle] = useState("");
   const [edesc, esetDesc] = useState("");
   const [estatus, esetStatus] = useState("");
-  const [epriority, esetPriority] = useState("");
+  const [epriority, esetPriority] = useState("COMMON");
   const [eduedate, esetDueDate] = useState("");
   const [eassign, esetAssign] = useState("");
   const [eerrorMessage, changeeErrorMessage] = useState("");
 
   const [noteToUpdate, changeNoteToUpdate] = useState("");
 
-  const [previous, setPrevious] = useState(0);
-  const [next, setNext] = useState(6);
+  const [previousCommon, setPreviousCommon] = useState(0);
+  const [nextCommon, setNextCommon] = useState(6);
 
-  const handlePrevious = () =>{
-    if(previous >= 0){
-      setPrevious(previous - 6);
-      setNext(next - 6);
+  const [previousImp, setPreviousImp] = useState(0);
+  const [nextImp, setNextImp] = useState(6);
+
+  const handlePreviousCommon = () => {
+    if (previousCommon >= 0) {
+      setPreviousCommon(previousCommon, - 6);
+      setNextCommon(nextCommon, - 6);
       // alert(previous);
     }
   }
 
-  const handleNext = () =>{
-    if(next >= 6 && next < notes.length){
-      setPrevious(previous + 6);
-      setNext(next + 6);
+  const handleNextCommon = () => {
+    if (nextCommon >= 6 && nextCommon < notes.length) {
+      setPreviousCommon(previousCommon + 6);
+      setNextCommon(nextCommon + 6);
       // alert(next);
     }
+  }
+
+  const handlePreviousImp = () => {
+    if (previousImp >= 0) {
+      setPreviousImp(previousImp, - 6);
+      setNextImp(nextImp, - 6);
+      // alert(previous);
+    }
+  }
+
+  const handleNextImp = () => {
+    if (nextImp >= 6 && nextImp < impTasks.length) {
+      setPreviousImp(previousImp + 6);
+      setNextImp(nextImp + 6);
+      // alert(next);
+    }
+  }
+
+  const handleStatus = (event) => {
+    let gettingStatus = event.target.textContent;
+    gettingStatus = gettingStatus.toLowerCase();
+    setStatus(gettingStatus);
+    // alert(role);
+  }
+
+  const ehandleStatus = (event) => {
+    let gettingStatus = event.target.textContent;
+    gettingStatus = gettingStatus.toLowerCase();
+    esetStatus(gettingStatus);
   }
 
   useEffect(() => {
@@ -63,12 +95,15 @@ export default function Home() {
     setDesc(e.target.value)
   }
 
-  const handleStatus = (e) => {
-    setStatus(e.target.value)
-  }
+  // const handleStatus = (e) => {
+  //   setStatus(e.target.value)
+  // }
 
-  const handlePriority = (e) => {
-    setPriority(e.target.value)
+  const handlePriority = () => {
+    if (priority === "COMMON")
+      setPriority('IMPORTANT');
+    else
+      setPriority("COMMON");
   }
 
   const handleDueDate = (e) => {
@@ -87,12 +122,11 @@ export default function Home() {
     esetDesc(e.target.value)
   }
 
-  const ehandleStatus = (e) => {
-    esetStatus(e.target.value)
-  }
-
   const ehandlePriority = (e) => {
-    esetPriority(e.target.value)
+    if (epriority === "COMMON")
+      esetPriority('IMPORTANT');
+    else
+      esetPriority("COMMON");
   }
 
   const ehandleDueDate = (e) => {
@@ -141,7 +175,7 @@ export default function Home() {
     setTitle("");
     setDesc("");
     setStatus("");
-    setPriority("");
+    setPriority("COMMON");
     setAssign("");
     setDueDate("");
   }
@@ -150,12 +184,13 @@ export default function Home() {
     esetTitle("");
     esetDesc("");
     esetStatus("");
-    esetPriority("");
     esetAssign("");
     esetDueDate("");
+    esetPriority("COMMON");
   }
 
   const addTask = () => {
+    // console.log(title, desc, status, priority, duedate, assign);
     if (validateTask()) {
       addNote(title, desc, status, priority, duedate, assign);
       toggleToShow(true);
@@ -217,10 +252,14 @@ export default function Home() {
               <div className="container" style={{
                 fontWeight: "bolder"
               }}>
-                <div className="newtask d-flex justify-content-between">
-                  <h3>Add new task</h3>
-                  <i classsName="fa-solid fa-plus" />
-                </div>
+
+                <h3>Add new Task</h3>
+
+                {/* <div className="newtask d-flex justify-content-between" style={{
+                  border : "1px solid black"
+                }}>
+                  <center><h3>Add new task</h3></center>
+                </div> */}
 
                 <div style={{
                   margin: 'auto',
@@ -231,11 +270,16 @@ export default function Home() {
                 }}>
                   <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Title</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value={title} onChange={handleTitle} />
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value={title} onChange={handleTitle} placeholder='title' style={{
+                      // fontWeight: "bold"
+                    }} />
                   </div>
                   <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label">Description</label>
-                    <input type="text" class="form-control" id="exampleInputPassword1" value={desc} onChange={handleDesc} />
+                    <textarea type="text" class="form-control" id="exampleInputPassword1" value={desc} onChange={handleDesc} style={{
+                      height: "100px",
+                      // fontWeight: "bold"
+                    }} placeholder='description' />
                   </div>
 
                   <div className="stapri d-flex justify-content-between">
@@ -244,7 +288,21 @@ export default function Home() {
                       // border : "1px solid black"
                     }} >
                       <label for="exampleInputPassword1" class="form-label">Status</label>
-                      <input type="text" class="form-control" id="exampleInputPassword1" value={status} onChange={handleStatus} />
+                      {/* <input type="text" class="form-control" id="exampleInputPassword1" value={status} onChange={handleStatus} /> */}
+                      <div className="buttons d-flex justify-content-between" style={{
+                        // border : "1px solid black",
+                        width: "70%",
+                        padding: ".5%"
+                      }}>
+                        <button className="btn btn-warning" style={{
+                          width: "40%",
+                          height: "50px"
+                        }} onClick={handleStatus}>PENDING</button>
+                        <button className="btn btn-success" style={{
+                          width: "40%",
+                          height: "50px"
+                        }} onClick={handleStatus}>COMPLETED</button>
+                      </div>
                     </div>
 
                     <div class="mb-3" style={{
@@ -252,7 +310,14 @@ export default function Home() {
                       // border : "1px solid black"
                     }} >
                       <label for="exampleInputPassword1" class="form-label">Priority</label>
-                      <input type="text" class="form-control" id="exampleInputPassword1" value={priority} onChange={handlePriority} />
+                      <br />
+                      <button className="btn btn-success" style={{
+                        // backgroundColor: "white",
+                        width: "30%",
+                        height: "50px",
+                        // color: "black"
+                      }} onClick={handlePriority}>{priority}</button>
+                      {/* <input type="text" class="form-control" id="exampleInputPassword1" value={priority} onChange={handlePriority} /> */}
                     </div>
                   </div>
 
@@ -270,7 +335,7 @@ export default function Home() {
                       // border : "1px solid black"
                     }}>
                       <label for="exampleInputPassword1" class="form-label">Assigned To</label>
-                      <input type="text" class="form-control" id="exampleInputPassword1" value={assign} onChange={handleAssign} />
+                      <input type="text" class="form-control" id="exampleInputPassword1" value={assign} onChange={handleAssign} placeholder='assigned to' />
                     </div>
                   </div>
 
@@ -330,27 +395,57 @@ export default function Home() {
                           </div>
 
                           <div className="mb-3">
-                            <label htmlFor="exampleInputEmail1" className="form-label">Status</label>
-                            <input
+                            {/* <label htmlFor="exampleInputEmail1" className="form-label">Status</label> */}
+
+                            <div class="mb-3" style={{
+                              width: "70%",
+                              // border : "1px solid black"
+                            }} >
+                              <label for="exampleInputPassword1" class="form-label">Status</label>
+                              {/* <input type="text" class="form-control" id="exampleInputPassword1" value={status} onChange={handleStatus} /> */}
+                              <div className="buttons d-flex justify-content-between" style={{
+                                // border : "1px solid black",
+                                width: "90%",
+                                padding: ".5%"
+                              }}>
+                                <button className="btn btn-warning" style={{
+                                  width: "40%",
+                                  height: "50px"
+                                }} onClick={ehandleStatus}>PENDING</button>
+                                <button className="btn btn-success" style={{
+                                  width: "40%",
+                                  height: "50px"
+                                }} onClick={ehandleStatus}>COMPLETED</button>
+                              </div>
+                            </div>
+
+                            {/* <input
                               type="text"
                               className="form-control"
                               id="exampleInputEmail1"
                               aria-describedby="emailHelp"
                               value={estatus}
                               onChange={ehandleStatus}
-                            />
+                            /> */}
                           </div>
 
                           <div className="mb-3">
                             <label htmlFor="exampleInputEmail1" className="form-label">Priority</label>
-                            <input
+                            <br />
+                            <button className="btn btn-success" style={{
+                              // backgroundColor: "white",
+                              width: "30%",
+                              height: "50px",
+                              // color: "black"
+                            }} onClick={ehandlePriority}>{epriority}</button>
+                            {/* <input
                               type="text"
                               className="form-control"
                               id="exampleInputEmail1"
                               aria-describedby="emailHelp"
                               value={epriority}
                               onChange={ehandlePriority}
-                            />
+                            /> */}
                           </div>
 
                           <div className="mb-3">
@@ -398,11 +493,64 @@ export default function Home() {
                 <div className="container" style={{
                   marginTop: "3%"
                 }}>
-                  <h4>Available Tasks: </h4>
+                  <u><h2 style={{
+                    marginTop: "3%",
+                    marginBottom: "3%"
+                  }}>Priority Tasks: </h2></u>
+                  <div className="row">
+                    {
+                      impTasks.length > 0 ?
+                        impTasks.slice(previousImp, nextImp).map((task) => {
+                          return (
+                            <div className="col-md-4">
+                              <IndividualTask task={task} updateNote={updateNNote} />
+                            </div>
+                          )
+                        })
+                        :
+                        <h5>No tasks available</h5>
+                    }
+                  </div>
+
+                  <div>
+                    {
+
+                      impTasks.length > 3 ?
+                        <div className='d-flex justify-content-between' style={{
+                          // border : "1px solid black",
+                          padding: "1%",
+                          width: "60%",
+                          margin: "1% auto"
+                        }}>
+                          <button className="btn btn-success" onClick={handlePreviousImp} style={{
+                            width: "20%",
+                            height: "60px"
+                          }}>PREVIOUS</button>
+                          <button className="btn btn-success" onClick={handleNextImp} style={{
+                            width: "20%",
+                            height: "60px"
+                          }}>NEXT</button>
+                        </div>
+                        :
+                        <></>
+                    }
+                  </div>
+
+                </div>
+
+
+
+                <div className="container" style={{
+                  marginTop: "3%"
+                }}>
+                  <u><h2 style={{
+                    marginTop: "3%",
+                    marginBottom: "3%"
+                  }}>Available Tasks: </h2></u>
                   <div className="row">
                     {
                       notes.length > 0 ?
-                        notes.slice(previous, next).map((task) => {
+                        notes.slice(previousCommon, nextCommon).map((task) => {
                           return (
                             <div className="col-md-4">
                               <IndividualTask task={task} updateNote={updateNNote} />
@@ -417,24 +565,24 @@ export default function Home() {
 
                 <div>
                   {
-                    
+
                     notes.length > 3 ?
                       <div className='d-flex justify-content-between' style={{
                         // border : "1px solid black",
-                        padding : "1%",
-                        width : "60%",
-                        margin : "1% auto"
+                        padding: "1%",
+                        width: "60%",
+                        margin: "1% auto"
                       }}>
-                        <button className="btn btn-success" onClick={handlePrevious} style={{
-                          width : "20%",
-                          height : "60px"
+                        <button className="btn btn-success" onClick={handlePreviousCommon} style={{
+                          width: "20%",
+                          height: "60px"
                         }}>PREVIOUS</button>
-                        <button className="btn btn-success" onClick={handleNext} style={{
-                          width : "20%",
-                          height : "60px"
+                        <button className="btn btn-success" onClick={handleNextCommon} style={{
+                          width: "20%",
+                          height: "60px"
                         }}>NEXT</button>
                       </div>
-                    :
+                      :
                       <></>
                   }
                 </div>
