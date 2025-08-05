@@ -9,8 +9,6 @@ export default function Home() {
   const context = useContext(taskContext);
   const { notes, fetchAllNotes, addNote, updateNote, setAlertMessage, toggleToShow, userAuth } = context;
 
-  // const [] = useState("");
-
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [status, setStatus] = useState("");
@@ -29,9 +27,28 @@ export default function Home() {
 
   const [noteToUpdate, changeNoteToUpdate] = useState("");
 
+  const [previous, setPrevious] = useState(0);
+  const [next, setNext] = useState(6);
+
+  const handlePrevious = () =>{
+    if(previous >= 0){
+      setPrevious(previous - 6);
+      setNext(next - 6);
+      // alert(previous);
+    }
+  }
+
+  const handleNext = () =>{
+    if(next >= 6 && next < notes.length){
+      setPrevious(previous + 6);
+      setNext(next + 6);
+      // alert(next);
+    }
+  }
 
   useEffect(() => {
     fetchAllNotes();
+    // loadChangedPages();
     // if (userAuth === "")
     //   toggleIsUser(false);
     // else
@@ -163,18 +180,16 @@ export default function Home() {
 
   const confirmUpdate = () => {
 
-    if (validateTask()) {
-      changeeErrorMessage("");
-      updateNote(noteToUpdate._id, etitle, edesc, estatus, epriority, eassign);
-      toggleToShow(true);
-      setAlertMessage("Note updated successfully");
-      setTimeout(() => {
-        toggleToShow(false);
-        setAlertMessage("");
-        clearEAll();
-      }, 1500);
-      refClose.current.click();
-    }
+    changeeErrorMessage("");
+    updateNote(noteToUpdate._id, etitle, edesc, estatus, epriority, eassign);
+    toggleToShow(true);
+    setAlertMessage("Note updated successfully");
+    setTimeout(() => {
+      toggleToShow(false);
+      setAlertMessage("");
+      clearEAll();
+    }, 1500);
+    refClose.current.click();
   }
 
   const ref = useRef(null);
@@ -187,13 +202,13 @@ export default function Home() {
         userAuth === "" ?
           <div>
             <center><h1 style={{
-              marginTop : "5%"
+              marginTop: "5%"
             }}>No user logged in, please either login in sign up</h1></center>
             <Link to="/"><button className="btn btn-secondary" style={{
-              width : "15%",
-              height : "60px",
-              marginLeft : "40%",
-              marginTop : "5%"
+              width: "15%",
+              height: "60px",
+              marginLeft: "40%",
+              marginTop: "5%"
             }}>LOGIN / SIGNUP</button></Link>
           </div>
           :
@@ -387,7 +402,7 @@ export default function Home() {
                   <div className="row">
                     {
                       notes.length > 0 ?
-                        notes.map((task) => {
+                        notes.slice(previous, next).map((task) => {
                           return (
                             <div className="col-md-4">
                               <IndividualTask task={task} updateNote={updateNNote} />
@@ -398,6 +413,30 @@ export default function Home() {
                         <h5>No tasks available</h5>
                     }
                   </div>
+                </div>
+
+                <div>
+                  {
+                    
+                    notes.length > 3 ?
+                      <div className='d-flex justify-content-between' style={{
+                        // border : "1px solid black",
+                        padding : "1%",
+                        width : "60%",
+                        margin : "1% auto"
+                      }}>
+                        <button className="btn btn-success" onClick={handlePrevious} style={{
+                          width : "20%",
+                          height : "60px"
+                        }}>PREVIOUS</button>
+                        <button className="btn btn-success" onClick={handleNext} style={{
+                          width : "20%",
+                          height : "60px"
+                        }}>NEXT</button>
+                      </div>
+                    :
+                      <></>
+                  }
                 </div>
 
 
