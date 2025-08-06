@@ -281,6 +281,7 @@ export default function Home() {
     updateTask(noteToUpdate._id, etitle, edesc, estatus, epriority, eassign);
     toggleToShow(true);
     setAlertMessage("Note updated successfully");
+    
     setTimeout(() => {
       toggleToShow(false);
       setAlertMessage("");

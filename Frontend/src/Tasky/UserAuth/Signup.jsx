@@ -38,7 +38,7 @@ export default function Signup() {
 
   const navigate = useNavigate();
   const context = useContext(taskContext);
-  const { setUserAuth, setUserEmail } = context;
+  const { setUserAuth, setUserEmail, setAlertMessage, toggleToShow } = context;
 
   const createUser = async () => {
     console.log(role, email, password);
@@ -69,10 +69,14 @@ export default function Signup() {
         const json = await response.json();
         if (json.success) {
           setErrorMessage(json.message);
+          toggleToShow(true);
+          setAlertMessage("User created successfully...");
           setTimeout(() => {
             navigate("/home");
             setUserAuth(json.authToken);
             setUserEmail(email);
+            toggleToShow(false);
+            setAlertMessage("");
           }, 1500);
         } else {
           setErrorMessage(json.message);

@@ -12,7 +12,7 @@ export default function Login() {
 
   const navigate = useNavigate();
   const context = useContext(taskContext);
-  const { setUserAuth, setUserEmail, setUserType } = context;
+  const { setUserAuth, setUserEmail, setUserType, setAlertMessage, toggleToShow } = context;
 
   const handleEmail = (event) => {
     setEmail(event.target.value);
@@ -49,10 +49,14 @@ export default function Login() {
         if (json.success) {
           setErrorMessage(json.message);
           setUserType(json.user.role);
+          //toggleToShow(true);
+          //setAlertMessage("User logged in succesfully...");
           setTimeout(() => {
             navigate("/home");
             setUserAuth(json.authToken);
             setUserEmail(email);
+            //toggleToShow(false);
+            //setAlertMessage("");
           }, 1500);
         } else {
           setErrorMessage(json.message);
