@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import taskContext from '../Context/TaskContext';
 import validator from "validator";
+import "./UserAuth.css";
 
 export default function Signup() {
 
@@ -82,17 +83,9 @@ export default function Signup() {
   }
 
   return (
-    <>
-      <h1 style={{
-        marginLeft: "12%",
-        marginTop: "5%"
-      }}>User Signup</h1>
-      <div className='container login' style={{
-        // border : "1px solid black",
-        margin: "2% auto",
-        padding: "2%",
-        width: "80%"
-      }}>
+    <div className='usersignup'>
+      <h1>User Signup</h1>
+      <div className='login'>
 
         <div className="mb-3">
           <label style={{ fontWeight: "bolder" }} for="exampleInputPassword1" className="form-label">Email</label>
@@ -106,19 +99,9 @@ export default function Signup() {
 
         <div className="mb-3">
           <label style={{ fontWeight: "bolder" }} for="exampleInputEmail1" className="form-label">Role</label>
-          <div className="buttons d-flex justify-content-between" style={{
-            // border : "1px solid black",
-            width: "30%",
-            padding: ".5%"
-          }}>
-            <button className={admin} style={{
-              width: "40%",
-              height: "50px"
-            }} onClick={handleRole}>ADMIN</button>
-            <button className={normal} style={{
-              width: "40%",
-              height: "50px"
-            }} onClick={handleRole}>NORMAL</button>
+          <div className="buttons d-flex justify-content-between buttons">
+            <button className={admin} onClick={handleRole}>ADMIN</button>
+            <button className={normal} onClick={handleRole}>NORMAL</button>
           </div>
           {/* <input type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value={role} onChange={handleRole} /> */}
         </div>
@@ -132,7 +115,7 @@ export default function Signup() {
           marginTop: "3%"
         }}>Signup</button>
       </div>
-    </>
+    </div>
   )
 }
 

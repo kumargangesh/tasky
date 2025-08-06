@@ -6,11 +6,11 @@ export default function NoteItem(props) {
 
     const { task, updateNote } = props;
     const context = useContext(taskContext);
-    const { deleteNote, setAlertMessage, toggleToShow } = context;
+    const { deleteTask, setAlertMessage, toggleToShow } = context;
 
     const finalDeleteTask = () => {
         if (window.confirm("Sure to delete")) {
-            deleteNote(task._id)
+            deleteTask(task._id)
             toggleToShow(true)
             setAlertMessage("Note titles " + task.title + " deleted successfully");
             setTimeout(() => {
@@ -22,7 +22,7 @@ export default function NoteItem(props) {
 
     return (
         <div className="card my-3">
-            <div className="card-body">
+            <div className="card-body inditask">
 
                 <button className="card-title btn btn-outline-info" style={{
                     width: "80%",
@@ -37,35 +37,21 @@ export default function NoteItem(props) {
                     margin: "2%"
                 }}>{task.description}</p></center>
 
-                <div className="stapri d-flex justify-content-between" style={{
-                    // border : "1px solid black",
-                    marginTop: "6%",
-                    width: "80%",
-                    margin: "6% auto"
-                }}>
+                <div className="stapri d-flex justify-content-between">
 
                     <button className={
                         task.status === "completed" ?
                             "btn btn-warning"
                             :
                             "btn btn-danger"
-                    } style={{
-                        width: "40%",
-                        height: "50px"
-                    }}>{task.status}</button>
+                    }>{task.status}</button>
 
                     <button className={
                         task.priority === "COMMON" ?
                             "btn btn-warning"
                             :
                             "btn btn-danger"
-                    } style={{
-                        width: "40%",
-                        height: "50px"
-                    }}>{(task.priority).toLowerCase()}</button>
-
-                    {/* <p>{task.status}</p>
-                    <p>{task.priority}</p> */}
+                    }>{(task.priority).toLowerCase()}</button>
                 </div>
 
                 <div className="dateassign d-flex justify-content-between">

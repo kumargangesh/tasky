@@ -1,13 +1,13 @@
 import React, { useContext, useState, useEffect, useRef } from 'react'
 import taskContext from '../Context/TaskContext';
 import IndividualTask from './Tasks/IndividualTask';
-import "../Style.css";
 import { Link } from 'react-router-dom';
+import "./Style.css";
 
 export default function Home() {
 
   const context = useContext(taskContext);
-  const { notes, fetchAllNotes, addNote, updateNote, setAlertMessage, toggleToShow, userAuth, impTasks } = context;
+  const { tasks, fetchAllTasks, addTask, updateTask, setAlertMessage, toggleToShow, userAuth, impTasks } = context;
 
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
@@ -93,9 +93,6 @@ export default function Home() {
         togglecompletedSClass("btn btn-outline-danger");
       }
     }
-
-
-    // alert(role);
   }
 
   const ehandleStatus = (event) => {
@@ -118,16 +115,10 @@ export default function Home() {
         etogglecompletedSClass("btn btn-outline-danger");
       }
     }
-
-    // if (ependingSClass === "btn btn-outline-warning") {
-    //   etogglependingSClass("btn btn-warning");
-    // } else {
-    //   etogglependingSClass("btn btn-outline-warning");
-    // }
   }
 
   useEffect(() => {
-    fetchAllNotes();
+    fetchAllTasks();
     // loadChangedPages();
     // if (userAuth === "")
     //   toggleIsUser(false);
@@ -142,10 +133,6 @@ export default function Home() {
   const handleDesc = (e) => {
     setDesc(e.target.value)
   }
-
-  // const handleStatus = (e) => {
-  //   setStatus(e.target.value)
-  // }
 
   const handlePriority = () => {
     if (priority === "COMMON") {
@@ -248,10 +235,10 @@ export default function Home() {
     toggleprioritySClass("btn btn-warning");
   }
 
-  const addTask = () => {
+  const addNewTask = () => {
     // console.log(title, desc, status, priority, duedate, assign);
     if (validateTask()) {
-      addNote(title, desc, status, priority, duedate, assign);
+      addTask(title, desc, status, priority, duedate, assign);
       toggleToShow(true);
       setAlertMessage("New Task added successfully");
       setTimeout(() => {
@@ -268,6 +255,7 @@ export default function Home() {
     esetDesc(note.description);
     esetStatus(note.status);
     esetPriority(note.priority);
+    esetDueDate(note.duedate);
     esetAssign(note.assignedto);
     changeNoteToUpdate(note);
 
@@ -290,7 +278,7 @@ export default function Home() {
   const confirmUpdate = () => {
 
     changeeErrorMessage("");
-    updateNote(noteToUpdate._id, etitle, edesc, estatus, epriority, eassign);
+    updateTask(noteToUpdate._id, etitle, edesc, estatus, epriority, eassign);
     toggleToShow(true);
     setAlertMessage("Note updated successfully");
     setTimeout(() => {
@@ -323,51 +311,24 @@ export default function Home() {
           :
           <>
             <div>
-              <div className="container" style={{
-                fontWeight: "bolder"
-              }}>
+              <div className="newtaskform">
 
                 <h3>Add new Task</h3>
 
-                {/* <div className="newtask d-flex justify-content-between" style={{
-                  border : "1px solid black"
-                }}>
-                  <center><h3>Add new task</h3></center>
-                </div> */}
-
-                <div style={{
-                  margin: 'auto',
-                  marginTop: '3%',
-                  width: '80%',
-                  border: "1px solid black",
-                  padding: "2%"
-                }}>
+                <div className="addnewtask">
                   <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Title</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value={title} onChange={handleTitle} placeholder='title' style={{
-                      // fontWeight: "bold"
-                    }} />
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value={title} onChange={handleTitle} placeholder='title'/>
                   </div>
                   <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label">Description</label>
-                    <textarea type="text" class="form-control" id="exampleInputPassword1" value={desc} onChange={handleDesc} style={{
-                      height: "100px",
-                      // fontWeight: "bold"
-                    }} placeholder='description' />
+                    <textarea type="text" class="form-control" id="exampleInputPassword1" value={desc} onChange={handleDesc} placeholder='description' />
                   </div>
 
                   <div className="stapri d-flex justify-content-between">
-                    <div class="mb-3" style={{
-                      width: "45%",
-                      // border : "1px solid black"
-                    }} >
+                    <div className="mb-3 statusandpri">
                       <label for="exampleInputPassword1" class="form-label">Status</label>
-                      {/* <input type="text" class="form-control" id="exampleInputPassword1" value={status} onChange={handleStatus} /> */}
-                      <div className="buttons d-flex justify-content-between" style={{
-                        // border : "1px solid black",
-                        width: "70%",
-                        padding: ".5%"
-                      }}>
+                      <div className="buttons d-flex justify-content-between">
                         <button className={pendingSClass} style={{
                           width: "40%",
                           height: "50px"
@@ -379,37 +340,25 @@ export default function Home() {
                       </div>
                     </div>
 
-                    <div class="mb-3" style={{
-                      width: "45%",
-                      // border : "1px solid black"
-                    }} >
+                    <div className="mb-3 priority">
                       <label for="exampleInputPassword1" class="form-label">Priority</label>
                       <br />
                       <button className={prioritySClass} style={{
-                        // backgroundColor: "white",
                         width: "30%",
-                        height: "50px",
-                        // color: "black"
+                        height: "50px"
                       }} onClick={handlePriority}>{priority}</button>
-                      {/* <input type="text" class="form-control" id="exampleInputPassword1" value={priority} onChange={handlePriority} /> */}
                     </div>
                   </div>
 
                   <div className="ddassi d-flex justify-content-between">
-                    <div class="mb-3" style={{
-                      width: "20%",
-                      // border : "1px solid black"
-                    }}>
+                    <div class="mb-3">
                       <label for="exampleInputPassword1" class="form-label">Due Date</label>
-                      <input type="date" class="form-control" id="exampleInputPassword1" value={duedate} onChange={handleDueDate} />
+                      <input type="date" className="form-control date" id="exampleInputPassword1" value={duedate} onChange={handleDueDate} />
                     </div>
 
-                    <div class="mb-3" style={{
-                      width: "45%",
-                      // border : "1px solid black"
-                    }}>
+                    <div class="mb-3">
                       <label for="exampleInputPassword1" class="form-label">Assigned To</label>
-                      <input type="text" class="form-control" id="exampleInputPassword1" value={assign} onChange={handleAssign} placeholder='assigned to' />
+                      <input type="text" class="form-control assign" id="exampleInputPassword1" value={assign} onChange={handleAssign} placeholder='assigned to' />
                     </div>
                   </div>
 
@@ -418,20 +367,17 @@ export default function Home() {
                     fontWeight: "bolder"
                   }}>{errorMessage}</p >
 
-                  <button type="submit" class="btn btn-warning" onClick={addTask} style={{
-                    width: "100px",
-                    height: "50px"
-                  }}>Add Task</button>
+                  <button type="submit" class="btn btn-warning addtaskbutton" onClick={addNewTask}>Add Task</button>
                 </div>
 
-                {/* <!-- Button trigger modal --> */}
+
                 <button style={{
                   display: "none"
                 }} ref={ref} type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                   Launch demo modal
                 </button>
 
-                {/* <!-- Modal --> */}
+
                 <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div className="modal-dialog">
                     <div className="modal-content">
@@ -469,16 +415,11 @@ export default function Home() {
                           </div>
 
                           <div className="mb-3">
-                            {/* <label htmlFor="exampleInputEmail1" className="form-label">Status</label> */}
-
                             <div class="mb-3" style={{
-                              width: "70%",
-                              // border : "1px solid black"
+                              width: "70%"
                             }} >
                               <label for="exampleInputPassword1" class="form-label">Status</label>
-                              {/* <input type="text" class="form-control" id="exampleInputPassword1" value={status} onChange={handleStatus} /> */}
                               <div className="buttons d-flex justify-content-between" style={{
-                                // border : "1px solid black",
                                 width: "90%",
                                 padding: ".5%"
                               }}>
@@ -499,10 +440,8 @@ export default function Home() {
                             <label htmlFor="exampleInputEmail1" className="form-label">Priority</label>
                             <br />
                             <button className={eprioritySClass} style={{
-                              // backgroundColor: "white",
                               width: "30%",
-                              height: "50px",
-                              // color: "black"
+                              height: "50px"
                             }} onClick={ehandlePriority}>{epriority}</button>
                             
                           </div>
@@ -551,14 +490,9 @@ export default function Home() {
 
                 {
                   impTasks.length > 0 ?
-                    <div>
-                      <div className="container" style={{
-                        marginTop: "3%"
-                      }}>
-                        <u><h2 style={{
-                          marginTop: "3%",
-                          marginBottom: "3%"
-                        }}>Priority Tasks: </h2></u>
+                    <div className="prtask">
+                      <div className="container">
+                        <u><h2>Priority Tasks: </h2></u>
                         <div className="row">
                           {
                             impTasks.slice(previousImp, nextImp).map((task) => {
@@ -575,20 +509,9 @@ export default function Home() {
                           {
 
                             impTasks.length > 3 ?
-                              <div className='d-flex justify-content-between' style={{
-                                // border : "1px solid black",
-                                padding: "1%",
-                                width: "60%",
-                                margin: "1% auto"
-                              }}>
-                                <button className="btn btn-success" onClick={handlePreviousImp} style={{
-                                  width: "20%",
-                                  height: "60px"
-                                }}>PREVIOUS</button>
-                                <button className="btn btn-success" onClick={handleNextImp} style={{
-                                  width: "20%",
-                                  height: "60px"
-                                }}>NEXT</button>
+                              <div className='d-flex justify-content-between imptaskbuttons'>
+                                <button className="btn btn-success" onClick={handlePreviousImp}>PREVIOUS</button>
+                                <button className="btn btn-success" onClick={handleNextImp}>NEXT</button>
                               </div>
                               :
                               <></>
@@ -602,17 +525,15 @@ export default function Home() {
                 }
 
                 {
-                  notes.length > 0 ?
-                    <div className="container" style={{
-                      marginTop: "3%"
-                    }}>
+                  tasks.length > 0 ?
+                    <div className="container prtask">
                       <u><h2 style={{
                         marginTop: "3%",
                         marginBottom: "3%"
                       }}>Available Tasks: </h2></u>
                       <div className="row">
                         {
-                          notes.slice(previousCommon, nextCommon).map((task) => {
+                          tasks.slice(previousCommon, nextCommon).map((task) => {
                             return (
                               <div className="col-md-4">
                                 <IndividualTask task={task} updateNote={updateNNote} />
@@ -629,21 +550,15 @@ export default function Home() {
                 <div>
                   {
 
-                    notes.length > 3 ?
-                      <div className='d-flex justify-content-between' style={{
+                    tasks.length > 3 ?
+                      <div className='d-flex justify-content-between imptaskbuttons' style={{
                         // border : "1px solid black",
                         padding: "1%",
                         width: "60%",
                         margin: "1% auto"
                       }}>
-                        <button className="btn btn-success" onClick={handlePreviousCommon} style={{
-                          width: "20%",
-                          height: "60px"
-                        }}>PREVIOUS</button>
-                        <button className="btn btn-success" onClick={handleNextCommon} style={{
-                          width: "20%",
-                          height: "60px"
-                        }}>NEXT</button>
+                        <button className="btn btn-success" onClick={handlePreviousCommon}>PREVIOUS</button>
+                        <button className="btn btn-success" onClick={handleNextCommon}>NEXT</button>
                       </div>
                       :
                       <></>

@@ -25,11 +25,11 @@ router.post("/addtasks", FetchUser, [
     if (!error.isEmpty()) return res.status(400).json({ error: error.array() });
     // returning status 400, with json message for errors received from errors array
 
-    const { title, description, status, priority, assignedto } = req.body;
+    const { title, description, status, priority, duedate, assignedto } = req.body;
 
     try{
         const task = new Tasks({ // creating a new note of a logged in user
-            title, description, status, priority, assignedto, user : req.user.id // here user is the id of logged in User, getting from FetchUser, which is the middleware function
+            title, description, status, priority, duedate, assignedto, user : req.user.id // here user is the id of logged in User, getting from FetchUser, which is the middleware function
         });
 
         const savedTask = await task.save();
@@ -74,7 +74,7 @@ router.put("/updatetask/:id", FetchUser, [
         }
 
         taskToUpdate = await Tasks.findByIdAndUpdate(req.params.id, {$set : newTask}, {new : true});
-        // finally updating the note 
+        // finally updating the task 
         res.status(200).json({ "message" : "Task updated successfully" });
 
     }catch(error){

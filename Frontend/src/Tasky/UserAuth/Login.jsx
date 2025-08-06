@@ -62,24 +62,19 @@ export default function Login() {
   }
 
   return (
-    <>
+    <div className="userlogin">
       <h1 style={{
-        marginLeft: "12%",
+        // marginLeft: "12%",
         marginTop: "5%"
       }}>User Login</h1>
-      <div className='container login' style={{
-        // border : "1px solid black",
-        margin: "2% auto",
-        padding: "2%",
-        width: "80%",
-      }}>
+      <div className='login'>
         <div className="mb-3">
           <label style={{ fontWeight: "bolder" }} for="exampleInputEmail1" className="form-label">Email address</label>
-          <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value={email} onChange={handleEmail} />
+          <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value={email} onChange={handleEmail} placeholder='email' />
         </div>
         <div className="mb-3">
           <label style={{ fontWeight: "bolder" }} for="exampleInputPassword1" className="form-label">Password</label>
-          <input type="text" className="form-control" id="exampleInputPassword1" value={password} onChange={handlePassword} />
+          <input type="text" className="form-control" id="exampleInputPassword1" value={password} onChange={handlePassword} placeholder='password' />
         </div>
 
         <p style={{
@@ -89,7 +84,7 @@ export default function Login() {
 
         <button type="submit" className="btn btn-warning loginButton" onClick={loginUser}>Login</button>
       </div>
-    </>
+    </div>
   )
 }
 

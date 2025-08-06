@@ -25,30 +25,12 @@ export default function IndividualUser(props) {
 
     return (
         <div className="indiTask">
-            <div className="emailicon" style={{
-                border: "1px solid black",
-                width: "60%",
-                padding: "1%",
-                margin: "auto",
-                marginTop: "3%"
-            }}>
+            <div className="emailicon">
                 <div className="d-flex justify-content-between picons">
-                    <p style={{
-                        fontSize: "25px",
-                        fontWeight: "bold"
-                    }}>{email}</p>
-                    <div style={{
-                        // border: "1px solid black",
-                        width: "15%",
-                        marginTop: "9px",
-                    }} className="d-flex justify-content-between ">
-                        <i class="fa-solid fa-pen" style={{
-                            fontSize: "22px"
-                        }} onClick={updateAnUser} />
-                        <i class="fa-solid fa-trash" style={{
-                            fontSize: "22px",
-                            marginLeft: "2%"
-                        }} onClick={() => { deleteUser(_id) }} />
+                    <p>{email}</p>
+                    <div className=" icons d-flex justify-content-between ">
+                        <i class="fa-solid fa-pen" onClick={updateAnUser} />
+                        <i class="fa-solid fa-trash" onClick={() => { deleteUser(_id) }} />
                     </div>
                 </div>
                 <p style={{

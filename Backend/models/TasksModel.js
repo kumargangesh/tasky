@@ -25,7 +25,7 @@ const TasksSchema = new Schema({
     duedate : {
         type : Date,
         required : true,
-        default : Date.now
+        //default : Date.now
     },
     assignedto : {
         type : String,
