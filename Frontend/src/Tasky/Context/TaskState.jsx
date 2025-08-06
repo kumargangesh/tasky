@@ -3,11 +3,9 @@ import TaskContext from './TaskContext';
 
 const TaskState = (props) => {
 
-  // const host = "https://inotebook-backend-gx6p.onrender.com";
+  // const host = "http://localhost:5000";
 
-  const host = "http://localhost:5000";
-
-  // const host = "https://tasky-backend-hnww.onrender.com";
+  const host = "https://tasky-backend-1-j3aj.onrender.com";
 
   const tempTasks = [];
   const tempUsers = [];
