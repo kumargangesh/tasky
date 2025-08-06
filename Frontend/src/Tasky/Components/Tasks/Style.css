@@ -1,0 +1,12 @@
+.icons{
+    /* border: 1px solid black; */
+}
+
+.icons i{
+    padding: 5%;
+}
+
+.icons i:hover{
+    border: 1px solid black;
+    border-radius: 500px;
+}

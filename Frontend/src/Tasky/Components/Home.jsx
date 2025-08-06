@@ -33,6 +33,14 @@ export default function Home() {
   const [previousImp, setPreviousImp] = useState(0);
   const [nextImp, setNextImp] = useState(6);
 
+  const [pendingSClass, togglependingSClass] = useState("btn btn-outline-warning");
+  const [completedSClass, togglecompletedSClass] = useState("btn btn-outline-danger");
+  const [prioritySClass, toggleprioritySClass] = useState("btn btn-warning");
+
+  const [ependingSClass, etogglependingSClass] = useState("btn btn-outline-warning");
+  const [ecompletedSClass, etogglecompletedSClass] = useState("btn btn-outline-danger");
+  const [eprioritySClass, etoggleprioritySClass] = useState("btn btn-warning");
+
   const handlePreviousCommon = () => {
     if (previousCommon >= 0) {
       setPreviousCommon(previousCommon, - 6);
@@ -69,6 +77,24 @@ export default function Home() {
     let gettingStatus = event.target.textContent;
     gettingStatus = gettingStatus.toLowerCase();
     setStatus(gettingStatus);
+
+    if (gettingStatus === "pending") {
+      togglecompletedSClass("btn btn-outline-danger");
+      if (pendingSClass === "btn btn-outline-warning") {
+        togglependingSClass("btn btn-warning");
+      } else {
+        togglependingSClass("btn btn-outline-warning");
+      }
+    } else {
+      togglependingSClass("btn btn-outline-warning");
+      if (completedSClass === "btn btn-outline-danger") {
+        togglecompletedSClass("btn btn-danger");
+      } else {
+        togglecompletedSClass("btn btn-outline-danger");
+      }
+    }
+
+
     // alert(role);
   }
 
@@ -76,6 +102,28 @@ export default function Home() {
     let gettingStatus = event.target.textContent;
     gettingStatus = gettingStatus.toLowerCase();
     esetStatus(gettingStatus);
+
+    if (gettingStatus === "pending") {
+      etogglecompletedSClass("btn btn-outline-danger");
+      if (ependingSClass === "btn btn-outline-warning") {
+        etogglependingSClass("btn btn-warning");
+      } else {
+        etogglependingSClass("btn btn-outline-warning");
+      }
+    } else {
+      etogglependingSClass("btn btn-outline-warning");
+      if (ecompletedSClass === "btn btn-outline-danger") {
+        etogglecompletedSClass("btn btn-danger");
+      } else {
+        etogglecompletedSClass("btn btn-outline-danger");
+      }
+    }
+
+    // if (ependingSClass === "btn btn-outline-warning") {
+    //   etogglependingSClass("btn btn-warning");
+    // } else {
+    //   etogglependingSClass("btn btn-outline-warning");
+    // }
   }
 
   useEffect(() => {
@@ -100,10 +148,14 @@ export default function Home() {
   // }
 
   const handlePriority = () => {
-    if (priority === "COMMON")
+    if (priority === "COMMON") {
       setPriority('IMPORTANT');
-    else
+      toggleprioritySClass("btn btn-danger");
+    }
+    else {
       setPriority("COMMON");
+      toggleprioritySClass("btn btn-warning");
+    }
   }
 
   const handleDueDate = (e) => {
@@ -123,10 +175,14 @@ export default function Home() {
   }
 
   const ehandlePriority = (e) => {
-    if (epriority === "COMMON")
+    if (epriority === "COMMON") {
+      etoggleprioritySClass("btn btn-danger");
       esetPriority('IMPORTANT');
-    else
+    }
+    else {
+      etoggleprioritySClass("btn btn-warning");
       esetPriority("COMMON");
+    }
   }
 
   const ehandleDueDate = (e) => {
@@ -187,6 +243,9 @@ export default function Home() {
     esetAssign("");
     esetDueDate("");
     esetPriority("COMMON");
+    togglecompletedSClass("btn btn-outline-danger");
+    togglependingSClass("btn btn-outline-warning");
+    toggleprioritySClass("btn btn-warning");
   }
 
   const addTask = () => {
@@ -211,6 +270,21 @@ export default function Home() {
     esetPriority(note.priority);
     esetAssign(note.assignedto);
     changeNoteToUpdate(note);
+
+    if (note.status === "pending") {
+      etogglecompletedSClass("btn btn-outline-danger");
+      etogglependingSClass("btn btn-warning");
+    } else {
+      etogglependingSClass("btn btn-outline-warning");
+      etogglecompletedSClass("btn btn-danger");
+    }
+
+    if (note.priority === "IMPORTANT") {
+      etoggleprioritySClass("btn btn-danger");
+    } else {
+      etoggleprioritySClass("btn btn-warning");
+    }
+
   }
 
   const confirmUpdate = () => {
@@ -294,11 +368,11 @@ export default function Home() {
                         width: "70%",
                         padding: ".5%"
                       }}>
-                        <button className="btn btn-warning" style={{
+                        <button className={pendingSClass} style={{
                           width: "40%",
                           height: "50px"
                         }} onClick={handleStatus}>PENDING</button>
-                        <button className="btn btn-success" style={{
+                        <button className={completedSClass} style={{
                           width: "40%",
                           height: "50px"
                         }} onClick={handleStatus}>COMPLETED</button>
@@ -311,7 +385,7 @@ export default function Home() {
                     }} >
                       <label for="exampleInputPassword1" class="form-label">Priority</label>
                       <br />
-                      <button className="btn btn-success" style={{
+                      <button className={prioritySClass} style={{
                         // backgroundColor: "white",
                         width: "30%",
                         height: "50px",
@@ -408,44 +482,29 @@ export default function Home() {
                                 width: "90%",
                                 padding: ".5%"
                               }}>
-                                <button className="btn btn-warning" style={{
+                                <button className={ependingSClass} style={{
                                   width: "40%",
                                   height: "50px"
                                 }} onClick={ehandleStatus}>PENDING</button>
-                                <button className="btn btn-success" style={{
+                                <button className={ecompletedSClass} style={{
                                   width: "40%",
                                   height: "50px"
                                 }} onClick={ehandleStatus}>COMPLETED</button>
                               </div>
                             </div>
 
-                            {/* <input
-                              type="text"
-                              className="form-control"
-                              id="exampleInputEmail1"
-                              aria-describedby="emailHelp"
-                              value={estatus}
-                              onChange={ehandleStatus}
-                            /> */}
                           </div>
 
                           <div className="mb-3">
                             <label htmlFor="exampleInputEmail1" className="form-label">Priority</label>
                             <br />
-                            <button className="btn btn-success" style={{
+                            <button className={eprioritySClass} style={{
                               // backgroundColor: "white",
                               width: "30%",
                               height: "50px",
                               // color: "black"
                             }} onClick={ehandlePriority}>{epriority}</button>
-                            {/* <input
-                              type="text"
-                              className="form-control"
-                              id="exampleInputEmail1"
-                              aria-describedby="emailHelp"
-                              value={epriority}
-                              onChange={ehandlePriority}
-                            /> */}
+                            
                           </div>
 
                           <div className="mb-3">
@@ -490,78 +549,82 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="container" style={{
-                  marginTop: "3%"
-                }}>
-                  <u><h2 style={{
-                    marginTop: "3%",
-                    marginBottom: "3%"
-                  }}>Priority Tasks: </h2></u>
-                  <div className="row">
-                    {
-                      impTasks.length > 0 ?
-                        impTasks.slice(previousImp, nextImp).map((task) => {
-                          return (
-                            <div className="col-md-4">
-                              <IndividualTask task={task} updateNote={updateNNote} />
-                            </div>
-                          )
-                        })
-                        :
-                        <h5>No tasks available</h5>
-                    }
-                  </div>
-
-                  <div>
-                    {
-
-                      impTasks.length > 3 ?
-                        <div className='d-flex justify-content-between' style={{
-                          // border : "1px solid black",
-                          padding: "1%",
-                          width: "60%",
-                          margin: "1% auto"
-                        }}>
-                          <button className="btn btn-success" onClick={handlePreviousImp} style={{
-                            width: "20%",
-                            height: "60px"
-                          }}>PREVIOUS</button>
-                          <button className="btn btn-success" onClick={handleNextImp} style={{
-                            width: "20%",
-                            height: "60px"
-                          }}>NEXT</button>
+                {
+                  impTasks.length > 0 ?
+                    <div>
+                      <div className="container" style={{
+                        marginTop: "3%"
+                      }}>
+                        <u><h2 style={{
+                          marginTop: "3%",
+                          marginBottom: "3%"
+                        }}>Priority Tasks: </h2></u>
+                        <div className="row">
+                          {
+                            impTasks.slice(previousImp, nextImp).map((task) => {
+                              return (
+                                <div className="col-md-4">
+                                  <IndividualTask task={task} updateNote={updateNNote} />
+                                </div>
+                              )
+                            })
+                          }
                         </div>
-                        :
-                        <></>
-                    }
-                  </div>
 
-                </div>
+                        <div>
+                          {
 
+                            impTasks.length > 3 ?
+                              <div className='d-flex justify-content-between' style={{
+                                // border : "1px solid black",
+                                padding: "1%",
+                                width: "60%",
+                                margin: "1% auto"
+                              }}>
+                                <button className="btn btn-success" onClick={handlePreviousImp} style={{
+                                  width: "20%",
+                                  height: "60px"
+                                }}>PREVIOUS</button>
+                                <button className="btn btn-success" onClick={handleNextImp} style={{
+                                  width: "20%",
+                                  height: "60px"
+                                }}>NEXT</button>
+                              </div>
+                              :
+                              <></>
+                          }
+                        </div>
 
+                      </div>
+                    </div>
+                    :
+                    <></>
+                }
 
-                <div className="container" style={{
-                  marginTop: "3%"
-                }}>
-                  <u><h2 style={{
-                    marginTop: "3%",
-                    marginBottom: "3%"
-                  }}>Available Tasks: </h2></u>
-                  <div className="row">
-                    {
-                      notes.length > 0 ?
-                        notes.slice(previousCommon, nextCommon).map((task) => {
-                          return (
-                            <div className="col-md-4">
-                              <IndividualTask task={task} updateNote={updateNNote} />
-                            </div>
-                          )
-                        })
-                        :
-                        <h5>No tasks available</h5>
-                    }
-                  </div>
-                </div>
+                {
+                  notes.length > 0 ?
+                    <div className="container" style={{
+                      marginTop: "3%"
+                    }}>
+                      <u><h2 style={{
+                        marginTop: "3%",
+                        marginBottom: "3%"
+                      }}>Available Tasks: </h2></u>
+                      <div className="row">
+                        {
+                          notes.slice(previousCommon, nextCommon).map((task) => {
+                            return (
+                              <div className="col-md-4">
+                                <IndividualTask task={task} updateNote={updateNNote} />
+                              </div>
+                            )
+                          })
+                        }
+                      </div>
+                    </div>
+                    :
+                    <></>
+                }
 
                 <div>
                   {
@@ -594,211 +657,5 @@ export default function Home() {
       }
     </div>
 
-    // <div>
-
-    //   <div className="container" style={{
-    //     fontWeight : "bolder"
-    //   }}>
-    //     <div className="newtask d-flex justify-content-between">
-    //       <h3>Add new task</h3>
-    //       <i classsName="fa-solid fa-plus" />
-    //     </div>
-
-    //     <div style={{
-    //       margin: 'auto',
-    //       marginTop: '3%',
-    //       width: '80%',
-    //       border: "1px solid black",
-    //       padding: "2%"
-    //     }}>
-    //       <div class="mb-3">
-    //         <label for="exampleInputEmail1" class="form-label">Title</label>
-    //         <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value={title} onChange={handleTitle} />
-    //       </div>
-    //       <div class="mb-3">
-    //         <label for="exampleInputPassword1" class="form-label">Description</label>
-    //         <input type="text" class="form-control" id="exampleInputPassword1" value={desc} onChange={handleDesc} />
-    //       </div>
-
-    //       <div className="stapri d-flex justify-content-between">
-    //         <div class="mb-3"  style={{
-    //             width : "45%",
-    //             // border : "1px solid black"
-    //           }} >
-    //           <label for="exampleInputPassword1" class="form-label">Status</label>
-    //           <input type="text" class="form-control" id="exampleInputPassword1" value={status} onChange={handleStatus}/>
-    //         </div>
-
-    //         <div class="mb-3"  style={{
-    //             width : "45%",
-    //             // border : "1px solid black"
-    //           }} >
-    //           <label for="exampleInputPassword1" class="form-label">Priority</label>
-    //           <input type="text" class="form-control" id="exampleInputPassword1" value={priority} onChange={handlePriority} />
-    //         </div>
-    //       </div>
-
-    //       <div className="ddassi d-flex justify-content-between">
-    //         <div class="mb-3"  style={{
-    //             width : "20%",
-    //             // border : "1px solid black"
-    //           }}>
-    //           <label for="exampleInputPassword1" class="form-label">Due Date</label>
-    //           <input type="date" class="form-control" id="exampleInputPassword1" value={duedate} onChange={handleDueDate} />
-    //         </div>
-
-    //         <div class="mb-3"  style={{
-    //             width : "45%",
-    //             // border : "1px solid black"
-    //           }}>
-    //           <label for="exampleInputPassword1" class="form-label">Assigned To</label>
-    //           <input type="text" class="form-control" id="exampleInputPassword1" value={assign} onChange={handleAssign} />
-    //         </div>
-    //       </div>
-
-    //       <p style={{
-    //         color: 'red',
-    //         fontWeight: "bolder"
-    //       }}>{errorMessage}</p >
-
-    //       <button type="submit" class="btn btn-warning" onClick={addTask} style={{
-    //         width : "100px",
-    //         height : "50px"
-    //       }}>Add Task</button>
-    //     </div>
-
-    //     {/* <!-- Button trigger modal --> */}
-    //     <button style={{
-    //       display: "none"
-    //     }} ref={ref} type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    //       Launch demo modal
-    //     </button>
-
-    //     {/* <!-- Modal --> */}
-    //     <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    //       <div className="modal-dialog">
-    //         <div className="modal-content">
-    //           <div className="modal-header">
-    //             <h1 className="modal-title fs-5" id="exampleModalLabel">Updating a note</h1>
-    //             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-    //           </div>
-
-    //           <div className="modal-body">
-    //             <div className="newNoteForm">
-    //               <div className="mb-3">
-    //                 <label htmlFor="exampleInputEmail1" className="form-label">Title</label>
-    //                 <input
-    //                   type="email"
-    //                   className="form-control"
-    //                   id="exampleInputEmail1"
-    //                   aria-describedby="emailHelp"
-    //                   value={etitle}
-    //                   onChange={ehandleTitle}
-    //                 />
-    //               </div>
-
-    //               <div className="mb-3">
-    //                 <label htmlFor="exampleInputPassword1" className="form-label">Description</label>
-    //                 <textarea
-    //                   type="text"
-    //                   className="form-control"
-    //                   id="exampleInputPassword1"
-    //                   value={edesc}
-    //                   onChange={ehandleDesc}
-    //                   style={{
-    //                     height: "150px"
-    //                   }}
-    //                 />
-    //               </div>
-
-    //               <div className="mb-3">
-    //                 <label htmlFor="exampleInputEmail1" className="form-label">Status</label>
-    //                 <input
-    //                   type="text"
-    //                   className="form-control"
-    //                   id="exampleInputEmail1"
-    //                   aria-describedby="emailHelp"
-    //                   value={estatus}
-    //                   onChange={ehandleStatus}
-    //                 />
-    //               </div>
-
-    //               <div className="mb-3">
-    //                 <label htmlFor="exampleInputEmail1" className="form-label">Priority</label>
-    //                 <input
-    //                   type="text"
-    //                   className="form-control"
-    //                   id="exampleInputEmail1"
-    //                   aria-describedby="emailHelp"
-    //                   value={epriority}
-    //                   onChange={ehandlePriority}
-    //                 />
-    //               </div>
-
-    //               <div className="mb-3">
-    //                 <label htmlFor="exampleInputEmail1" className="form-label">Due Date</label>
-    //                 <input
-    //                   type="date"
-    //                   className="form-control"
-    //                   id="exampleInputEmail1"
-    //                   aria-describedby="emailHelp"
-    //                   value={eduedate}
-    //                   onChange={ehandleDueDate}
-    //                 />
-    //               </div>
-
-    //               <div className="mb-3">
-    //                 <label htmlFor="exampleInputEmail1" className="form-label">Assigned To</label>
-    //                 <input
-    //                   type="text"
-    //                   className="form-control"
-    //                   id="exampleInputEmail1"
-    //                   aria-describedby="emailHelp"
-    //                   value={eassign}
-    //                   onChange={ehandleAssign}
-    //                 />
-    //               </div>
-
-    //             </div>
-    //           </div>
-
-    //           <p style={{
-    //             color: 'red',
-    //             fontWeight: "bolder",
-    //             marginLeft: "5%",
-    //             marginTop: "-3%"
-    //           }}>{eerrorMessage}</p>
-
-    //           <div className="modal-footer">
-    //             <button ref={refClose} type="button" className="btn btn-secondary loginButton" data-bs-dismiss="modal" >Close</button>
-    //             <button type="button" className="btn btn-warning loginButton" onClick={confirmUpdate} >Update Note</button>
-    //           </div>
-    //         </div>
-    //       </div>
-    //     </div>
-
-
-    //   </div>
-
-    // <div className="container" style={{
-    //   marginTop: "3%"
-    // }}>
-    //   <h4>Available Tasks: </h4>
-    //   <div className="row">
-    //     {
-    //       notes.length > 0 ?
-    //         notes.map((task) => {
-    //           return (
-    //             <div className="col-md-4">
-    //               <IndividualTask task={task} updateNote={updateNNote} />
-    //             </div>
-    //           )
-    //         })
-    //         :
-    //         <h5>No tasks available</h5>
-    //     }
-    //   </div>
-    // </div>
-    // </div>
   )
 }

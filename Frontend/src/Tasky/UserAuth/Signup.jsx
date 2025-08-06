@@ -10,11 +10,21 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
+  const [admin, setAdmin] = useState("btn btn-outline-danger");
+  const [normal, setNormal] = useState("btn btn-outline-success");
+
   const handleRole = (event) => {
     let gettingRole = event.target.textContent;
     gettingRole = gettingRole.toLowerCase();
     setRole(gettingRole);
-    // alert(role);
+
+    if (gettingRole === "admin") {
+      setNormal("btn btn-outline-success");
+      setAdmin("btn btn-danger");
+    } else {
+      setAdmin("btn btn-outline-danger");
+      setNormal("btn btn-success");
+    }
   }
 
   const handleEmail = (event) => {
@@ -68,7 +78,7 @@ export default function Signup() {
         }
         console.log(json.response);
       }
-    } 
+    }
   }
 
   return (
@@ -94,20 +104,20 @@ export default function Signup() {
           <input type="text" className="form-control" id="exampleInputPassword1" value={password} onChange={handlePassword} />
         </div>
 
-         <div className="mb-3">
+        <div className="mb-3">
           <label style={{ fontWeight: "bolder" }} for="exampleInputEmail1" className="form-label">Role</label>
           <div className="buttons d-flex justify-content-between" style={{
             // border : "1px solid black",
-            width : "20%",
-            padding : ".5%"
+            width: "30%",
+            padding: ".5%"
           }}>
-            <button className="btn btn-warning" style={{
-              width : "40%",
-              height : "50px"
+            <button className={admin} style={{
+              width: "40%",
+              height: "50px"
             }} onClick={handleRole}>ADMIN</button>
-            <button className="btn btn-success" style={{
-              width : "40%",
-              height : "50px"
+            <button className={normal} style={{
+              width: "40%",
+              height: "50px"
             }} onClick={handleRole}>NORMAL</button>
           </div>
           {/* <input type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value={role} onChange={handleRole} /> */}
@@ -119,7 +129,7 @@ export default function Signup() {
         }}>{errorMessage}</p>
 
         <button type="submit" className="btn btn-warning loginButton" onClick={createUser} style={{
-          marginTop : "3%"
+          marginTop: "3%"
         }}>Signup</button>
       </div>
     </>
